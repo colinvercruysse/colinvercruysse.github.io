@@ -6,7 +6,7 @@
             aria-labelledby="example-radio-group-label"
             class="example-radio-group"
             [(ngModel)]="selectedGame">
-                <mat-radio-button class="example-radio-button" *ngFor="let game of games" 
+                <mat-radio-button class="example-radio-button" *ngFor="let game of games"
                     [value]="game">
                 {{game.name}}
                 </mat-radio-button>
@@ -24,14 +24,14 @@
                         {{name}}
                     </div>
                     <button mat-icon-button (click)="deleteName(name)">
-                        <mat-icon>cancel</mat-icon>
+                        <mat-icon class="cancel-icon">cancel</mat-icon>
                     </button>
                 </div>
             </mat-list-item>
         </mat-list>
     </div>
     <div class="next-container">
-        <button mat-button (click)="startGame()" [disabled]="names.length === 0">
+        <button class="next-btn" mat-button (click)="startGame()" [disabled]="names.length === 0">
             <!-- <mat-icon>arrow-right</mat-icon> -->
             Next
         </button>

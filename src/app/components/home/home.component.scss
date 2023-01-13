@@ -1,3 +1,5 @@
+@import '/src/colors';
+
 .home-container {
     display: flex;
     flex-direction: column;
@@ -8,6 +10,7 @@
 .divider {
     width: 100%;
     margin: 10px;
+    color: $blue;
 }
 
 .name-input-container {
@@ -51,4 +54,13 @@ mat-list {
     flex-direction: row;
     align-items: center;
     justify-content: center;
+}
+
+.cancel-icon {
+    color: $red;
+}
+
+.next-btn {
+    border: 1px solid $darkBlue;
+    width: 150px;
 }
