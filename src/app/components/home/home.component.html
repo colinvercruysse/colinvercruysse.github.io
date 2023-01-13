@@ -1,0 +1,39 @@
+<div class="home-container">
+    <h1>Vercruysse gameboard</h1>
+    <mat-divider class="divider"></mat-divider>
+    <label id="example-radio-group-label">Pick a game</label>
+        <mat-radio-group
+            aria-labelledby="example-radio-group-label"
+            class="example-radio-group"
+            [(ngModel)]="selectedGame">
+                <mat-radio-button class="example-radio-button" *ngFor="let game of games" 
+                    [value]="game">
+                {{game.name}}
+                </mat-radio-button>
+        </mat-radio-group>
+    <div>You selected: {{selectedGame.name}}</div>
+    <mat-divider class="divider"></mat-divider>
+    <div class="name-input-container">
+            <input type="text" autoComplete="off"
+                placeholder="Name" (change)="addName($event)">
+        <h2>Players</h2>
+        <mat-list role="list" #namesList>
+            <mat-list-item *ngFor="let name of names">
+                <div class="row">
+                    <div>
+                        {{name}}
+                    </div>
+                    <button mat-icon-button (click)="deleteName(name)">
+                        <mat-icon>cancel</mat-icon>
+                    </button>
+                </div>
+            </mat-list-item>
+        </mat-list>
+    </div>
+    <div class="next-container">
+        <button mat-button (click)="startGame()" [disabled]="names.length === 0">
+            <!-- <mat-icon>arrow-right</mat-icon> -->
+            Next
+        </button>
+    </div>
+</div>
