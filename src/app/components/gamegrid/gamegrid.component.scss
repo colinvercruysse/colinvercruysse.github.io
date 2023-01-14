@@ -1,3 +1,5 @@
+@import '/src/colors';
+
 .game-container {
     display: flex;
     flex-direction: column;
@@ -5,6 +7,11 @@
     align-items: center;
     justify-content: center;
 }
+
+.title {
+    border-bottom: 1px solid $blue;
+}
+
 .next-round-button-container {
     margin-top: 10px;
     display: flex;

@@ -11,7 +11,6 @@
                 {{game.name}}
                 </mat-radio-button>
         </mat-radio-group>
-    <div>You selected: {{selectedGame.name}}</div>
     <mat-divider class="divider"></mat-divider>
     <div class="name-input-container">
             <input type="text" autoComplete="off"
@@ -23,9 +22,9 @@
                     <div>
                         {{name}}
                     </div>
-                    <button mat-icon-button (click)="deleteName(name)">
-                        <mat-icon class="cancel-icon">cancel</mat-icon>
-                    </button>
+                    <div class="cancel" (click)="deleteName(name)">
+                        x
+                    </div>
                 </div>
             </mat-list-item>
         </mat-list>

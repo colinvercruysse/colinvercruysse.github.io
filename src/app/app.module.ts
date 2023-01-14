@@ -8,6 +8,8 @@ import { FormsModule } from '@angular/forms';
 import {MatListModule} from '@angular/material/list';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
+import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -30,7 +32,9 @@ import { HomeComponent } from './components/home/home.component';
     FormsModule,
     MatListModule,
     MatIconModule,
-    MatInputModule
+    MatInputModule,
+    MatBottomSheetModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
