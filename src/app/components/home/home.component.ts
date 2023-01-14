@@ -16,8 +16,12 @@ export class HomeComponent {
 
   gameState: GameState | undefined;
 
-  constructor(private router: Router) {
+  gameInMemory: boolean = false;
 
+  constructor(private router: Router) {
+    let state = localStorage.getItem('currentState');
+
+    if (state) this.gameInMemory = true;
   }
 
   addName(event: any) {
@@ -29,6 +33,19 @@ export class HomeComponent {
 
   deleteName(name: string) {
     this.names = this.names.filter(n => n !== name);
+  }
+
+  calculateNumberOfRounds(NumberOfPlayers: number, game: EGame): number {
+    switch(game) {
+      case EGame.CHINEESPOEPEN:
+        return (Math.floor(52/NumberOfPlayers) * 2);
+
+     case EGame.NULLENSPEL:
+        return (Math.floor(52/NumberOfPlayers) * 2);
+        
+     default:
+        return Number.MAX_SAFE_INTEGER;
+    }
   }
 
   startGame() {
@@ -48,6 +65,8 @@ export class HomeComponent {
       i++;
     });
 
+    this.selectedGame.maxRounds = this.calculateNumberOfRounds(players.length, this.selectedGame.type);
+    console.log(this.selectedGame);
 
     this.gameState = {
       players: players,
@@ -57,6 +76,10 @@ export class HomeComponent {
 
     localStorage.setItem('currentState', JSON.stringify(this.gameState));
 
+    this.router.navigate(['/game'])
+  }
+
+  returnToGame() {
     this.router.navigate(['/game'])
   }
 }

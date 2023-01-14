@@ -1,5 +1,5 @@
 <div class="game-container">
-  <h1 class="title">{{gameState.game.name}} - round {{gameState.players[0].currentRound}}</h1>
+  <h1 class="title" (click)="navigateToHomescreen()">{{gameState.game.name}} - round {{gameState.players[0].currentRound}}</h1>
   <table mat-table [dataSource]="gameState.players">
     <!-- Position Column -->
     <ng-container matColumnDef="position">

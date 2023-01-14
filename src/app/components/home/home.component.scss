@@ -54,6 +54,7 @@ mat-list {
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    gap: 20px;
 }
 
 .cancel {
@@ -71,13 +72,13 @@ mat-list {
 
 .next-btn {
     border: 1px solid $blue;
-    width: 150px;
+    width: 130px;
 }
 
 .next-btn:hover {
     border: 1px solid $darkBlue;
     background-color: $blue;
-    width: 150px;
+    width: 130px;
 }
 
 .close {

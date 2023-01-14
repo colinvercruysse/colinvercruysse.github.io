@@ -34,5 +34,9 @@
             <!-- <mat-icon>arrow-right</mat-icon> -->
             Next
         </button>
+        <button *ngIf="gameInMemory" class="next-btn" mat-button (click)="returnToGame()">
+            <!-- <mat-icon>arrow-right</mat-icon> -->
+            Return to game
+        </button>
     </div>
 </div>

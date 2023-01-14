@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
+import { Router } from '@angular/router';
 import { EGame, GameState, Player } from 'src/app/data/interfaces';
 import { state } from '../../data/dummy';
+import { BottomsheetComponent } from '../bottomsheet/bottomsheet.component';
 
 @Component({
   selector: 'app-gamegrid',
@@ -13,7 +15,7 @@ export class GamegridComponent implements OnInit {
 
   displayedColumns: string[] = ['position','name', 'score','nullen', 'total'];
 
-  constructor(private _bottomSheet: MatBottomSheet) { 
+  constructor(private _bottomSheet: MatBottomSheet, private router: Router) { 
     let s: GameState;
 
     if (localStorage.getItem('currentState')) {
@@ -98,6 +100,10 @@ export class GamegridComponent implements OnInit {
     this.save('currentState', JSON.stringify(this.gameState));
   }
 
+  navigateToHomescreen() {
+    this.router.navigate(['/home'])
+  }
+
   orderMostPointsFirst(state: GameState): Player[] {
     return [...state.players].sort((a, b) => {
       if (a.total > b.total) return -1;
@@ -127,7 +133,7 @@ export class GamegridComponent implements OnInit {
   }
 
   calculateWinner(state: GameState): Player {
-    let player =  state.players.find(p => p.position === 1);
+    let player =  state.players.find(p => p.position === 0);
 
     return player ? player : {
       id: Number.MAX_SAFE_INTEGER,
@@ -148,22 +154,6 @@ export class GamegridComponent implements OnInit {
   }
 
   openBottomSheet(): void {
-      this._bottomSheet.open(BottomSheet);
-  }
-
-}
-
-
-
-@Component({
-  selector: 'bottom-sheet',
-  templateUrl: 'bottom-sheet.html',
-})
-export class BottomSheet {
-  constructor(private _bottomSheetRef: MatBottomSheetRef<BottomSheet>) {}
-
-  openLink(event: MouseEvent): void {
-    this._bottomSheetRef.dismiss();
-    event.preventDefault();
+      this._bottomSheet.open(BottomsheetComponent);
   }
 }

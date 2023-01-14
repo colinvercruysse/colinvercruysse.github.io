@@ -33,6 +33,14 @@ export let config: Config = {
             maxScore: Number.MAX_SAFE_INTEGER,
             winner: undefined,
             round: 0
+        },
+        {
+            name: 'Regular scoreboard',
+            type: EGame.NONE,
+            maxRounds: Number.MAX_SAFE_INTEGER,
+            maxScore: Number.MAX_SAFE_INTEGER,
+            round: 0,
+            winner: undefined
         }
     ]
 }
