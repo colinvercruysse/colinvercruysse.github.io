@@ -1,5 +1,5 @@
 <div class="home-container">
-    <h1>Vercruysse gameboard</h1>
+    <h1 class="title">Vercruysse gameboard</h1>
     <mat-divider class="divider"></mat-divider>
     <label id="example-radio-group-label">Pick a game</label>
         <mat-radio-group
@@ -15,7 +15,7 @@
     <div class="name-input-container">
             <input type="text" autoComplete="off"
                 placeholder="Name" (change)="addName($event)">
-        <h2>Players</h2>
+        <h2>Players {{names.length > 0 ? '(' + names.length + ')' : ''}}</h2>
         <mat-list role="list" #namesList>
             <mat-list-item *ngFor="let name of names">
                 <div class="row">

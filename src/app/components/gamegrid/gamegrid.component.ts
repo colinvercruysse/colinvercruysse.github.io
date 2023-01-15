@@ -64,6 +64,9 @@ export class GamegridComponent implements OnInit {
     // Add round to each player
     state.players.forEach(player => player.currentRound = player.currentRound + 1);
 
+    // Add round to game
+    state.game.round = state.game.round + 1;
+
     // Calculate positions
     let orderedPlayers = [...state.players];
     switch(this.gameState.game.type) {
@@ -98,6 +101,10 @@ export class GamegridComponent implements OnInit {
     // Persist
     this.gameState = state;
     this.save('currentState', JSON.stringify(this.gameState));
+
+    if (this.gameState.players[0].currentRound === this.gameState.game.maxRounds) {
+      this.onEndGame();
+    }
   }
 
   navigateToHomescreen() {
@@ -154,6 +161,6 @@ export class GamegridComponent implements OnInit {
   }
 
   openBottomSheet(): void {
-      this._bottomSheet.open(BottomsheetComponent);
+      this._bottomSheet.open(BottomsheetComponent, {closeOnNavigation: true});
   }
 }

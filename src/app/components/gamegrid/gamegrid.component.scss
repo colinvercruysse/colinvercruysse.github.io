@@ -3,9 +3,10 @@
 .game-container {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    max-width: 90vw;
     align-items: center;
     justify-content: center;
+    margin-left: 5px;
 }
 
 .title {

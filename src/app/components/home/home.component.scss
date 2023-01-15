@@ -40,14 +40,10 @@ input[type=text] {
 
 mat-list {
     flex-grow: 1;
-    overflow: auto;
-    max-height: 30vh;
     width: 100%;
 }
 .next-container {
     height: 80px; 
-    position: fixed; 
-    bottom:0%;
     width:100%; 
     opacity: 1;
     display: flex;

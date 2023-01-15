@@ -8,7 +8,7 @@ export let config: Config = {
             maxRounds: Number.MAX_SAFE_INTEGER,
             maxScore: 501,
             winner: undefined,
-            round: 0
+            round: 1
         },
         {
             name: 'Chinees Poepen',
@@ -16,7 +16,7 @@ export let config: Config = {
             maxRounds: Number.MAX_SAFE_INTEGER,
             maxScore: Number.MAX_SAFE_INTEGER,
             winner: undefined,
-            round: 0
+            round: 1
         },
         {
             name: 'Nullenspel',
@@ -24,7 +24,7 @@ export let config: Config = {
             maxRounds: Number.MAX_SAFE_INTEGER,
             maxScore: Number.MAX_SAFE_INTEGER,
             winner: undefined, 
-            round: 0
+            round: 1
         },
         {
             name: 'Phase 10',
@@ -32,14 +32,14 @@ export let config: Config = {
             maxRounds: Number.MAX_SAFE_INTEGER,
             maxScore: Number.MAX_SAFE_INTEGER,
             winner: undefined,
-            round: 0
+            round: 1
         },
         {
             name: 'Regular scoreboard',
             type: EGame.NONE,
             maxRounds: Number.MAX_SAFE_INTEGER,
             maxScore: Number.MAX_SAFE_INTEGER,
-            round: 0,
+            round: 1,
             winner: undefined
         }
     ]

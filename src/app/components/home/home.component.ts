@@ -55,7 +55,7 @@ export class HomeComponent {
       players.push({
         id: i,
         name: n,
-        currentRound: 0,
+        currentRound: 1,
         position: i,
         score: 0,
         total: 0,
@@ -66,7 +66,6 @@ export class HomeComponent {
     });
 
     this.selectedGame.maxRounds = this.calculateNumberOfRounds(players.length, this.selectedGame.type);
-    console.log(this.selectedGame);
 
     this.gameState = {
       players: players,
