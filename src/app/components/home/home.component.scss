@@ -77,14 +77,6 @@ mat-list {
     width: 130px;
 }
 
-.close {
-    width: 16px;
-    height: 16px;
-    align-items: center;
-    opacity: 0.3;
-    border: 1px solid $red;
-    border-radius: 50%;
-  }
-  .close:hover {
-    opacity: 1;
-  }
+.x-btn {
+    color: $red;
+}

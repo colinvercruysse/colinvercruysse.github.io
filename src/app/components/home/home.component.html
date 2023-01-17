@@ -22,9 +22,12 @@
                     <div>
                         {{name}}
                     </div>
-                    <div class="cancel" (click)="deleteName(name)">
-                        x
-                    </div>
+                    <button mat-icon-button matTooltip="Cancel" 
+                    (click)="deleteName(name)"
+                    aria-label="Example icon-button with a heart icon"
+                    >
+                        <mat-icon class="x-btn">cancel</mat-icon>
+                      </button>
                 </div>
             </mat-list-item>
         </mat-list>
