@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-  selectedGame: Game  = config.games[0];
+  selectedGame: Game | undefined = config.games[0];
   games = config.games;
 
   names: string[] = [];
@@ -65,11 +65,15 @@ export class HomeComponent {
       i++;
     });
 
-    this.selectedGame.maxRounds = this.calculateNumberOfRounds(players.length, this.selectedGame.type);
+    if (this.selectedGame === undefined || this.selectedGame === null) {
+      this.selectedGame = this.games.find(g => g.type === EGame.NONE);
+    }
+
+    this.selectedGame!.maxRounds = this.calculateNumberOfRounds(players.length, this.selectedGame ? this.selectedGame.type : EGame.NONE);
 
     this.gameState = {
       players: players,
-      game: this.selectedGame,
+      game: this.selectedGame!,
       currentPlayer: players[0].id
     }
 

@@ -52,6 +52,7 @@ mat-list {
     flex-grow: 1;
     width: 100%;
 }
+
 .next-container {
     width:100%; 
     opacity: 1;
@@ -63,25 +64,12 @@ mat-list {
     flex-wrap: wrap;
 }
 
-.cancel {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 16px;
-    height: 16px;
-    border: 1px solid $red;
-    border-radius: 50%;
-    color: white;
-    background-color: $red;
-}
-
-.next-btn {
+.btn {
     border: 1px solid $blue;
     width: 130px;
 }
 
-.next-btn:hover {
+.btn:hover {
     border: 1px solid $darkBlue;
     background-color: $blue;
     width: 130px;
@@ -98,4 +86,19 @@ mat-list {
 
 .icon:hover {
     color: white;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.names-list {
+    border: 1px solid $blue;
+    border-radius: 10px;
+    margin-bottom: 10px;
 }

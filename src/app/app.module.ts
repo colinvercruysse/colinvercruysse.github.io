@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatTableModule } from '@angular/material/table' ;
 import {MatButtonModule} from '@angular/material/button';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatRadioModule, MAT_RADIO_DEFAULT_OPTIONS} from '@angular/material/radio';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatListModule} from '@angular/material/list';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
@@ -16,13 +16,15 @@ import { AppComponent } from './app.component';
 import { GamegridComponent } from './components/gamegrid/gamegrid.component';
 import { HomeComponent } from './components/home/home.component';
 import { BottomsheetComponent } from './components/bottomsheet/bottomsheet.component';
+import { RadiobuttonComponent } from './components/radiobutton/radiobutton.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     GamegridComponent,
     HomeComponent,
-    BottomsheetComponent
+    BottomsheetComponent,
+    RadiobuttonComponent
   ],
   imports: [
     BrowserModule,
@@ -36,14 +38,14 @@ import { BottomsheetComponent } from './components/bottomsheet/bottomsheet.compo
     MatIconModule,
     MatInputModule,
     MatBottomSheetModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ReactiveFormsModule
   ],
   providers: [
-    {
-      provide: MAT_RADIO_DEFAULT_OPTIONS,
-      useValue: { color: '#389EEB' },
-  }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [
+    NO_ERRORS_SCHEMA
+  ]
 })
 export class AppModule { }

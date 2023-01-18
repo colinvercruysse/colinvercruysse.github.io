@@ -1,0 +1,17 @@
+@import '/src/colors';
+
+.radio {
+    border: 1px solid $blue;
+    border-radius: 10px;
+    width: fit-content;
+    padding: 10px;
+}
+
+.selected {
+    border: 1px solid $blue;
+    border-radius: 10px;
+    width: fit-content;
+    padding: 10px;
+    background-color: $darkBlue;
+    color: white;
+}
