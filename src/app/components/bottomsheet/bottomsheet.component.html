@@ -1,6 +1,6 @@
 <div class="sheet-container">
     <h3>🎉 Winner: {{winner?.name}} 🎉</h3>
     <p>Total: {{winner?.total}}</p>
-    <img src="https://i.imgur.com/MsPrtiP.gif" alt="Impressive, very nice!"  width="75%" />
+    <img [src]="getRandomWinnerGif()" alt="Winner!"  width="75%" />
 </div>
 

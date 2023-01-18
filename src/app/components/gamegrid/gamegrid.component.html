@@ -1,42 +1,43 @@
 <div class="game-container">
   <h1 class="title" (click)="navigateToHomescreen()">{{gameState.game.name}} - round {{gameState.players[0].currentRound}}</h1>
-  <table mat-table [dataSource]="gameState.players" class="table">
+  <mat-table [dataSource]="gameState.players" class="table">
     <!-- Position Column -->
     <ng-container matColumnDef="position" >
-      <th mat-header-cell *matHeaderCellDef> No. </th>
-      <td mat-cell *matCellDef="let player"> {{player.position + 1}} </td>
+      <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+      <mat-cell *matCellDef="let player"> {{player.position + 1}} </mat-cell>
     </ng-container>
   
     <!-- Name Column -->
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
-      <td mat-cell *matCellDef="let player"> {{player.name}} </td>
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let player"> {{player.name}} </mat-cell>
     </ng-container>
   
     <!-- Score Column -->
     <ng-container matColumnDef="score">
-      <th mat-header-cell *matHeaderCellDef> Score </th>
-      <td mat-cell *matCellDef="let player; let i = index"> 
+      <mat-header-cell *matHeaderCellDef> Score </mat-header-cell>
+      <mat-cell *matCellDef="let player; let i = index"> 
         <input matInput type="number" autoComplete="off"
         placeholder={{player.score}} style="width: 45px;" (change)="saveScore($event, i)">
-      </td>
+      </mat-cell>
     </ng-container>
   
     <!-- Nullen Column -->
     <ng-container matColumnDef="nullen">
-      <th mat-header-cell *matHeaderCellDef> Nullen </th>
-      <td mat-cell *matCellDef="let player"> {{player.nullen}}</td>
+      <mat-header-cell *matHeaderCellDef> Nullen </mat-header-cell>
+      <mat-cell *matCellDef="let player"> {{player.nullen}}</mat-cell>
     </ng-container>
   
     <!-- total Column -->
     <ng-container matColumnDef="total">
-      <th mat-header-cell *matHeaderCellDef> Total </th>
-      <td mat-cell *matCellDef="let player"> {{player.total}}</td>
+      <mat-header-cell *matHeaderCellDef> Total </mat-header-cell>
+      <mat-cell *matCellDef="let player"> {{player.total}}</mat-cell>
     </ng-container>
   
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row
+    *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
   
   <div class="button-container">
     <div class="next-round-button-container">

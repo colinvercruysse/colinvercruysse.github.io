@@ -108,6 +108,7 @@ export class GamegridComponent implements OnInit {
   }
 
   navigateToHomescreen() {
+    this.closeBottomSheet();
     this.router.navigate(['/home'])
   }
 
@@ -162,5 +163,9 @@ export class GamegridComponent implements OnInit {
 
   openBottomSheet(): void {
       this._bottomSheet.open(BottomsheetComponent, {closeOnNavigation: true});
+  }
+
+  closeBottomSheet(): void {
+    this._bottomSheet.dismiss();
   }
 }

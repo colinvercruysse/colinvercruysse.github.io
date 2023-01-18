@@ -1,7 +1,6 @@
 <div class="home-container">
     <h1 class="title">Vercruysse gameboard</h1>
     <mat-divider class="divider"></mat-divider>
-    <label id="example-radio-group-label">Pick a game</label>
         <mat-radio-group
             aria-labelledby="example-radio-group-label"
             class="example-radio-group"
@@ -36,10 +35,12 @@
         <button class="next-btn" mat-button (click)="startGame()" [disabled]="names.length === 0">
             <!-- <mat-icon>arrow-right</mat-icon> -->
             Next
+            <mat-icon class="icon">arrow_forward</mat-icon>
         </button>
         <button *ngIf="gameInMemory" class="next-btn" mat-button (click)="returnToGame()">
             <!-- <mat-icon>arrow-right</mat-icon> -->
-            Return to game
+            Reload game
+            <mat-icon class="icon">refresh</mat-icon>
         </button>
     </div>
 </div>
