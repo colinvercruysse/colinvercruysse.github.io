@@ -2,10 +2,8 @@
     <h1 class="title">Vercruysse gameboard</h1>
     <mat-divider class="divider"></mat-divider>
         <mat-radio-group
-            aria-labelledby="example-radio-group-label"
-            class="example-radio-group"
             [(ngModel)]="selectedGame">
-                <mat-radio-button class="example-radio-button" *ngFor="let game of games"
+                <mat-radio-button *ngFor="let game of games"
                     [value]="game">
                 {{game.name}}
                 </mat-radio-button>
@@ -18,8 +16,13 @@
         <mat-list role="list" #namesList>
             <mat-list-item *ngFor="let name of names">
                 <div class="row">
-                    <div>
-                        {{name}}
+                    <div class="name-row">
+                        <div class="number-entry">
+                            {{names.indexOf(name) + 1}}.
+                        </div>
+                        <div>
+                            {{name}}
+                        </div>
                     </div>
                     <button mat-icon-button matTooltip="Cancel" 
                     (click)="deleteName(name)"
@@ -37,10 +40,15 @@
             Next
             <mat-icon class="icon">arrow_forward</mat-icon>
         </button>
+        <button *ngIf="gameInMemory" class="next-btn" mat-button (click)="randomizePlayersList()">
+            <!-- <mat-icon>arrow-right</mat-icon> -->
+            Randomizer
+            <mat-icon class="icon">shuffle</mat-icon>
+        </button>
         <button *ngIf="gameInMemory" class="next-btn" mat-button (click)="returnToGame()">
             <!-- <mat-icon>arrow-right</mat-icon> -->
             Reload game
-            <mat-icon class="icon">refresh</mat-icon>
+            <mat-icon class="icon">cached</mat-icon>
         </button>
     </div>
 </div>

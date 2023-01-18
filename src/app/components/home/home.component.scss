@@ -38,12 +38,21 @@ input[type=text] {
     width: 100%;
 }
 
+.name-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.number-entry {
+    width: 25px;
+}
+
 mat-list {
     flex-grow: 1;
     width: 100%;
 }
 .next-container {
-    height: 80px; 
     width:100%; 
     opacity: 1;
     display: flex;
@@ -51,6 +60,7 @@ mat-list {
     align-items: center;
     justify-content: center;
     gap: 20px;
+    flex-wrap: wrap;
 }
 
 .cancel {
@@ -75,6 +85,7 @@ mat-list {
     border: 1px solid $darkBlue;
     background-color: $blue;
     width: 130px;
+    color: white;
 }
 
 .x-btn {
@@ -83,4 +94,8 @@ mat-list {
 
 .icon {
     color: $darkBlue
+}
+
+.icon:hover {
+    color: white;
 }

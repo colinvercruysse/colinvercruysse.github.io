@@ -81,4 +81,8 @@ export class HomeComponent {
   returnToGame() {
     this.router.navigate(['/game'])
   }
+
+  randomizePlayersList() {
+    this.names.sort((a,b) => 0.5 - Math.random());
+  }
 }
