@@ -1,40 +1,42 @@
-import { Component, Input, OnInit } from '@angular/core';
-import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
-import { Router } from '@angular/router';
-import { EGame, GameState, Player } from 'src/app/data/interfaces';
-import { state } from '../../data/dummy';
-import { BottomsheetComponent } from '../bottomsheet/bottomsheet.component';
+import { Component, Input, OnInit } from "@angular/core";
+import {
+  MatBottomSheet,
+  MatBottomSheetRef,
+} from "@angular/material/bottom-sheet";
+import { Router } from "@angular/router";
+import { EGame, ExtraScore, GameState, Player } from "src/app/data/interfaces";
+import { state } from "../../data/dummy";
+import { BottomsheetComponent } from "../bottomsheet/bottomsheet.component";
 
 @Component({
-  selector: 'app-gamegrid',
-  templateUrl: './gamegrid.component.html',
-  styleUrls: ['./gamegrid.component.scss']
+  selector: "app-gamegrid",
+  templateUrl: "./gamegrid.component.html",
+  styleUrls: ["./gamegrid.component.scss"],
 })
 export class GamegridComponent implements OnInit {
   public gameState: GameState;
 
-  displayedColumns: string[] = ['position','name', 'score','nullen', 'total'];
+  displayedColumns: string[] = ["position", "name", "score", "extra", "total"];
 
-  constructor(private _bottomSheet: MatBottomSheet, private router: Router) { 
+  constructor(private _bottomSheet: MatBottomSheet, private router: Router) {
     let s: GameState;
 
-    if (localStorage.getItem('currentState')) {
-      s = JSON.parse(localStorage.getItem('currentState')?? '');
+    if (localStorage.getItem("currentState")) {
+      s = JSON.parse(localStorage.getItem("currentState") ?? "");
     } else {
       s = state;
     }
     this.gameState = s;
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   saveScore(event: any, index: number) {
     if (event.target && event.target.value) {
-      this.addScoreToTotal(index,parseInt(event.target.value))
+      this.addScoreToTotal(index, parseInt(event.target.value));
     }
 
-    event.target.value = '';
+    event.target.value = "";
   }
 
   addScoreToTotal(id: number, score: number) {
@@ -42,17 +44,27 @@ export class GamegridComponent implements OnInit {
 
     state.currentPlayer = id;
 
-    let player = state.players.find(p => p.id === id);
+    let player = state.players.find((p) => p.id === id);
+
+    switch (state.game.extra) {
+      case ExtraScore.NULLEN: {
+        if (player && player.total === 0) {
+          player.extra = player.extra + 1;
+        }
+
+        break;
+      }
+
+      case ExtraScore.PREVIOUSTOTAL: {
+        if (player) {
+          player.extra = player.total;
+        }
+      }
+    }
+
     if (player) {
       player.score = score;
       player.total = player.total + score;
-    }
-
-    // Add nullen
-    if (this.gameState.game.type === EGame.NULLENSPEL) {
-      if (player && player.total === 0) {
-        player.nullen = player.nullen + 1;
-      }
     }
 
     this.gameState = state;
@@ -62,14 +74,16 @@ export class GamegridComponent implements OnInit {
     let state = this.gameState;
 
     // Add round to each player
-    state.players.forEach(player => player.currentRound = player.currentRound + 1);
+    state.players.forEach(
+      (player) => (player.currentRound = player.currentRound + 1)
+    );
 
     // Add round to game
     state.game.round = state.game.round + 1;
 
     // Calculate positions
     let orderedPlayers = [...state.players];
-    switch(this.gameState.game.type) {
+    switch (this.gameState.game.type) {
       case EGame.UNO:
         orderedPlayers = this.orderMostPointsFirst(state);
         break;
@@ -79,7 +93,7 @@ export class GamegridComponent implements OnInit {
         break;
 
       case EGame.NULLENSPEL:
-        orderedPlayers = this.orderNullenSpel(state);
+        orderedPlayers = this.orderExtra(state);
         break;
 
       case EGame.PHASE10:
@@ -89,27 +103,33 @@ export class GamegridComponent implements OnInit {
       case EGame.NONE:
         orderedPlayers = this.orderMostPointsFirst(state);
         break;
-      
+
       default:
         orderedPlayers = this.orderMostPointsFirst(state);
         break;
     }
 
-
-    state.players.forEach(player => player.position = orderedPlayers.findIndex(p => p.name === player.name));
+    state.players.forEach(
+      (player) =>
+        (player.position = orderedPlayers.findIndex(
+          (p) => p.name === player.name
+        ))
+    );
 
     // Persist
     this.gameState = state;
-    this.save('currentState', JSON.stringify(this.gameState));
+    this.save("currentState", JSON.stringify(this.gameState));
 
-    if (this.gameState.players[0].currentRound === this.gameState.game.maxRounds) {
+    if (
+      this.gameState.players[0].currentRound === this.gameState.game.maxRounds
+    ) {
       this.onEndGame();
     }
   }
 
   navigateToHomescreen() {
     this.closeBottomSheet();
-    this.router.navigate(['/home'])
+    this.router.navigate(["/home"]);
   }
 
   orderMostPointsFirst(state: GameState): Player[] {
@@ -120,12 +140,12 @@ export class GamegridComponent implements OnInit {
     });
   }
 
-  orderNullenSpel(state: GameState): Player[] {
+  orderExtra(state: GameState): Player[] {
     return [...state.players].sort((a, b) => {
-      if (a.nullen > b.nullen) return -1;
-      else if (a.nullen < b.nullen) return 1;
+      if (a.extra > b.extra) return -1;
+      else if (a.extra < b.extra) return 1;
       else return 0;
-    })
+    });
   }
 
   orderLeastPointsFirst(state: GameState): Player[] {
@@ -141,31 +161,59 @@ export class GamegridComponent implements OnInit {
   }
 
   calculateWinner(state: GameState): Player {
-    let player =  state.players.find(p => p.position === 0);
+    let player = state.players.find((p) => p.position === 0);
 
-    return player ? player : {
-      id: Number.MAX_SAFE_INTEGER,
-      name: 'No winner',
-      currentRound: state.players[0].currentRound,
-      nullen: Number.MAX_SAFE_INTEGER,
-      position: 1,
-      score: Number.MAX_SAFE_INTEGER,
-      total: Number.MAX_SAFE_INTEGER
-    }
+    return player
+      ? player
+      : {
+          id: Number.MAX_SAFE_INTEGER,
+          name: "No winner",
+          currentRound: state.players[0].currentRound,
+          extra: Number.MAX_SAFE_INTEGER,
+          position: 1,
+          score: Number.MAX_SAFE_INTEGER,
+          total: Number.MAX_SAFE_INTEGER,
+        };
   }
 
   onEndGame() {
     let winner = this.calculateWinner(this.gameState);
-    this.save('winner', JSON.stringify(winner));
+    this.save("winner", JSON.stringify(winner));
 
     this.openBottomSheet();
   }
 
   openBottomSheet(): void {
-      this._bottomSheet.open(BottomsheetComponent, {closeOnNavigation: true});
+    this._bottomSheet.open(BottomsheetComponent, { closeOnNavigation: true });
   }
 
   closeBottomSheet(): void {
     this._bottomSheet.dismiss();
+  }
+
+  getExtraLabel(): string {
+    switch (this.gameState.game.extra) {
+      case ExtraScore.PREVIOUSTOTAL:
+        return "Prev.";
+
+      case ExtraScore.NULLEN:
+        return "Nullen";
+
+      case ExtraScore.PHASE:
+        return "Phase";
+
+      default:
+        return "Prev.";
+    }
+  }
+
+  addPhase(id: number) {
+    if (this.gameState.game.type === EGame.PHASE10) {
+      let player = this.gameState.players.find((p) => p.id === id);
+
+      if (player) {
+        player.extra = player.extra + 1;
+      }
+    }
   }
 }

@@ -38,7 +38,7 @@
             Next
             <mat-icon class="icon">arrow_forward</mat-icon>
         </button>
-        <button class="btn" mat-button (click)="randomizePlayersList()">
+        <button *ngIf="names.length > 1" class="btn" mat-button (click)="randomizePlayersList()">
             <!-- <mat-icon>arrow-right</mat-icon> -->
             Randomizer
             <mat-icon class="icon">shuffle</mat-icon>

@@ -1,4 +1,4 @@
-import { EGame, GameState } from "./interfaces";
+import { EGame, ExtraScore, GameState } from "./interfaces";
 
 export let state: GameState = {
     players: [
@@ -9,7 +9,7 @@ export let state: GameState = {
         currentRound: 0,
         total: 0,
         position: 0,
-        nullen: 0,
+        extra: 0,
       }, 
       {
         id: 1,
@@ -18,7 +18,7 @@ export let state: GameState = {
         total: 0,
         currentRound: 0,
         position: 1,
-        nullen: 0,
+        extra: 0,
       },
       {
         id: 2,
@@ -27,7 +27,7 @@ export let state: GameState = {
         total: 0,
         currentRound: 0,
         position: 2,
-        nullen: 0,
+        extra: 0,
       },
       {
         id: 3,
@@ -36,7 +36,7 @@ export let state: GameState = {
         total: 0,
         currentRound: 0,
         position: 3,
-        nullen: 0,
+        extra: 0,
       }
     ],
     currentPlayer: 0,
@@ -46,6 +46,7 @@ export let state: GameState = {
       maxScore: 501,
       winner: undefined,
       maxRounds: Number.MAX_SAFE_INTEGER,
-      round: 0
+      round: 0,
+      extra: ExtraScore.PREVIOUSTOTAL
     }
   }

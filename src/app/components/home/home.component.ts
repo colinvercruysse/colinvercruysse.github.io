@@ -59,7 +59,7 @@ export class HomeComponent {
         position: i,
         score: 0,
         total: 0,
-        nullen: 0,
+        extra: 0,
       });
 
       i++;

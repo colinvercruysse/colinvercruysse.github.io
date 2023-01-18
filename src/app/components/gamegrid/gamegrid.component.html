@@ -2,9 +2,9 @@
   <h1 class="title" (click)="navigateToHomescreen()">{{gameState.game.name}} - round {{gameState.players[0].currentRound}}</h1>
   <mat-table [dataSource]="gameState.players" class="table">
     <!-- Position Column -->
-    <ng-container matColumnDef="position" >
-      <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
-      <mat-cell *matCellDef="let player"> {{player.position + 1}} </mat-cell>
+    <ng-container matColumnDef="position" style="width: 20px;" >
+      <mat-header-cell *matHeaderCellDef [ngClass]="'small'"> No. </mat-header-cell>
+      <mat-cell *matCellDef="let player" [ngClass]="'small'"> {{player.position + 1}} </mat-cell>
     </ng-container>
   
     <!-- Name Column -->
@@ -18,14 +18,14 @@
       <mat-header-cell *matHeaderCellDef> Score </mat-header-cell>
       <mat-cell *matCellDef="let player; let i = index"> 
         <input matInput type="number" autoComplete="off"
-        placeholder={{player.score}} style="width: 45px;" (change)="saveScore($event, i)">
+        placeholder={{player.score}} style="width: 35px;" (change)="saveScore($event, i)">
       </mat-cell>
     </ng-container>
   
     <!-- Nullen Column -->
-    <ng-container matColumnDef="nullen">
-      <mat-header-cell *matHeaderCellDef> Nullen </mat-header-cell>
-      <mat-cell *matCellDef="let player"> {{player.nullen}}</mat-cell>
+    <ng-container matColumnDef="extra">
+      <mat-header-cell *matHeaderCellDef> {{getExtraLabel()}} </mat-header-cell>
+      <mat-cell *matCellDef="let player" (click)="addPhase(player.id)"> {{player.extra}}</mat-cell>
     </ng-container>
   
     <!-- total Column -->
@@ -41,11 +41,11 @@
   
   <div class="button-container">
     <div class="next-round-button-container">
-      <button mat-raised-button color="primary" (click)="onNextRound()">Next round</button>
+      <button class="btn" mat-button (click)="onNextRound()">Next round</button>
     </div>
     <div style="width: 30px;"></div>
     <div class="next-round-button-container">
-      <button mat-raised-button color="primary" (click)="onEndGame()">End game</button>
+      <button class="btn" mat-button (click)="onEndGame()">End game</button>
     </div>
   </div>
 </div>

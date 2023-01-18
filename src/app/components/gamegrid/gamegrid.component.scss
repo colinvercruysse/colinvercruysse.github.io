@@ -33,3 +33,21 @@
 .row {
     border-bottom: 2px solid $blue;
 }
+
+.small {
+    max-width: 50px;
+}
+
+.btn {
+    border: 1px solid $blue;
+    width: 150px;
+    font-size: 16px;
+}
+
+.btn:hover {
+    border: 1px solid $darkBlue;
+    background-color: $blue;
+    width: 150px;
+    color: white;
+    font-size: 16px;
+}

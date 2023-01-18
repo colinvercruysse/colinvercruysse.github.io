@@ -11,7 +11,7 @@ export interface Player {
     score: number,
     currentRound: number,
     position: number,
-    nullen: number,
+    extra: number,
 }
 
 export interface Game {
@@ -21,6 +21,7 @@ export interface Game {
     maxRounds: number,
     winner: Player | undefined,
     round: number,
+    extra: ExtraScore
 }
 
 export enum EGame {
@@ -29,6 +30,12 @@ export enum EGame {
     CHINEESPOEPEN,
     NULLENSPEL,
     PHASE10
+}
+
+export enum ExtraScore {
+    NULLEN,
+    PREVIOUSTOTAL,
+    PHASE
 }
 
 export interface Config {

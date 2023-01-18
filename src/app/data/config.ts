@@ -1,4 +1,4 @@
-import { Game, EGame, Config } from "./interfaces";
+import { Game, EGame, Config, ExtraScore } from "./interfaces";
 
 export let config: Config = {
     games: [
@@ -8,7 +8,8 @@ export let config: Config = {
             maxRounds: Number.MAX_SAFE_INTEGER,
             maxScore: 501,
             winner: undefined,
-            round: 1
+            round: 1,
+            extra: ExtraScore.PREVIOUSTOTAL
         },
         {
             name: 'Chinees Poepen',
@@ -16,7 +17,8 @@ export let config: Config = {
             maxRounds: Number.MAX_SAFE_INTEGER,
             maxScore: Number.MAX_SAFE_INTEGER,
             winner: undefined,
-            round: 1
+            round: 1,
+            extra: ExtraScore.PREVIOUSTOTAL
         },
         {
             name: 'Nullenspel',
@@ -24,7 +26,8 @@ export let config: Config = {
             maxRounds: Number.MAX_SAFE_INTEGER,
             maxScore: Number.MAX_SAFE_INTEGER,
             winner: undefined, 
-            round: 1
+            round: 1,
+            extra: ExtraScore.NULLEN
         },
         {
             name: 'Phase 10',
@@ -32,7 +35,8 @@ export let config: Config = {
             maxRounds: Number.MAX_SAFE_INTEGER,
             maxScore: Number.MAX_SAFE_INTEGER,
             winner: undefined,
-            round: 1
+            round: 1,
+            extra: ExtraScore.PHASE
         },
         {
             name: 'Regular scoreboard',
@@ -40,7 +44,8 @@ export let config: Config = {
             maxRounds: Number.MAX_SAFE_INTEGER,
             maxScore: Number.MAX_SAFE_INTEGER,
             round: 1,
-            winner: undefined
+            winner: undefined,
+            extra: ExtraScore.PREVIOUSTOTAL
         }
     ]
 }
