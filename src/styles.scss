@@ -13,3 +13,23 @@ input[type='number'],
 input[type="text"] {
     font-size: inherit;
   }
+
+  @media only screen and (min-width: 600px) {
+    /* For tablets: */
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+  }
+
+  @media only screen and (min-width: 768px) {
+    /* For desktop: */
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+  }
