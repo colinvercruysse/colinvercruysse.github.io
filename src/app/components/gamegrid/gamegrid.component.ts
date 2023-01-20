@@ -77,44 +77,69 @@ export class GamegridComponent implements OnInit {
     // Add round to game
     state.game.round = state.game.round + 1;
 
-    // Calculate positions
+    /**
+     * Update positions
+     */
+    let scores: number[] = [];
+    state.players.forEach((player) => {
+      scores.push(
+        state.game.type === EGame.NULLENSPEL ? player.extra : player.total
+      );
+    });
+
+    let uniqueScores = [...new Set(scores)];
+
     let orderedPlayers = [...state.players];
     switch (this.gameState.game.type) {
       case EGame.UNO:
         orderedPlayers = this.orderLeastPointsFirst(state);
+        uniqueScores = this.sortAscending(uniqueScores);
         break;
 
       case EGame.CHINEESPOEPEN:
         orderedPlayers = this.orderMostPointsFirst(state);
+        uniqueScores = this.sortDescending(uniqueScores);
         break;
 
       case EGame.NULLENSPEL:
         orderedPlayers = this.orderExtra(state);
+        uniqueScores = this.sortDescending(uniqueScores);
         break;
 
       case EGame.PHASE10:
         orderedPlayers = this.orderLeastPointsFirst(state);
+        uniqueScores = this.sortAscending(uniqueScores);
         break;
 
       case EGame.NONE_MAX_SCORE:
         orderedPlayers = this.orderMostPointsFirst(state);
+        uniqueScores = this.sortDescending(uniqueScores);
         break;
 
       case EGame.NONE_MIN_SCORE:
         orderedPlayers = this.orderLeastPointsFirst(state);
+        uniqueScores = this.sortAscending(uniqueScores);
         break;
 
       default:
         orderedPlayers = this.orderMostPointsFirst(state);
+        uniqueScores = this.sortDescending(uniqueScores);
         break;
     }
 
-    state.players.forEach(
-      (player) =>
-        (player.position = orderedPlayers.findIndex(
-          (p) => p.name === player.name
-        ))
-    );
+    state.players.forEach((player) => {
+      /**
+       * 1. Get unique values from all totals / extras
+       * 2. Order these from large -> small or small -> large (based on config)
+       * 3. position = index of this number
+       */
+      player.position =
+        uniqueScores.findIndex(
+          (p) =>
+            p ===
+            (state.game.type === EGame.NULLENSPEL ? player.extra : player.total)
+        ) + 1;
+    });
 
     // Persist
     this.gameState = state;
@@ -130,6 +155,28 @@ export class GamegridComponent implements OnInit {
   navigateToHomescreen() {
     this.closeBottomSheet();
     this.router.navigate(["/home"]);
+  }
+
+  /**
+   * From high to low
+   * @param list
+   * @returns
+   */
+  sortDescending(list: number[]): number[] {
+    return list.sort((a, b) => {
+      return b - a;
+    });
+  }
+
+  /**
+   * From low to high
+   * @param list
+   * @returns
+   */
+  sortAscending(list: number[]): number[] {
+    return list.sort((a, b) => {
+      return a - b;
+    });
   }
 
   orderMostPointsFirst(state: GameState): Player[] {
@@ -160,25 +207,27 @@ export class GamegridComponent implements OnInit {
     localStorage.setItem(key, data);
   }
 
-  calculateWinner(state: GameState): Player {
-    let player = state.players.find((p) => p.position === 0);
+  calculateWinner(state: GameState): Player[] {
+    let winners = state.players.filter((p) => p.position === 1);
 
-    return player
-      ? player
-      : {
-          id: Number.MAX_SAFE_INTEGER,
-          name: "No winner",
-          currentRound: state.players[0].currentRound,
-          extra: Number.MAX_SAFE_INTEGER,
-          position: 1,
-          score: Number.MAX_SAFE_INTEGER,
-          total: Number.MAX_SAFE_INTEGER,
-        };
+    return winners.length > 0
+      ? winners
+      : [
+          {
+            id: Number.MAX_SAFE_INTEGER,
+            name: "No winner",
+            currentRound: state.players[0].currentRound,
+            extra: Number.MAX_SAFE_INTEGER,
+            position: 1,
+            score: Number.MAX_SAFE_INTEGER,
+            total: Number.MAX_SAFE_INTEGER,
+          },
+        ];
   }
 
   onEndGame() {
-    let winner = this.calculateWinner(this.gameState);
-    this.save("winner", JSON.stringify(winner));
+    let winners = this.calculateWinner(this.gameState);
+    this.save("winners", JSON.stringify(winners));
 
     this.openBottomSheet();
   }

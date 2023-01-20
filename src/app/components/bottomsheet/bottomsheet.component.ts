@@ -1,22 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
-import { links } from 'src/app/data/giflinks';
-import { GameState, Player } from 'src/app/data/interfaces';
+import { Component, OnInit } from "@angular/core";
+import {
+  MatBottomSheet,
+  MatBottomSheetRef,
+} from "@angular/material/bottom-sheet";
+import { links } from "src/app/data/giflinks";
+import { GameState, Player } from "src/app/data/interfaces";
 
 @Component({
-  selector: 'app-bottomsheet',
-  templateUrl: './bottomsheet.component.html',
-  styleUrls: ['./bottomsheet.component.scss']
+  selector: "app-bottomsheet",
+  templateUrl: "./bottomsheet.component.html",
+  styleUrls: ["./bottomsheet.component.scss"],
 })
-export class BottomsheetComponent implements OnInit{
+export class BottomsheetComponent implements OnInit {
   state: GameState | undefined;
-  winner: Player | undefined;
+  winners: Player[] = [];
 
-  constructor(private _bottomSheetRef: MatBottomSheetRef<BottomsheetComponent>) {}
+  constructor(
+    private _bottomSheetRef: MatBottomSheetRef<BottomsheetComponent>
+  ) {}
 
   ngOnInit(): void {
-    this.state = JSON.parse(localStorage.getItem('currentState')?? '');
-    this.winner = JSON.parse(localStorage.getItem('winner') ?? '');
+    this.state = JSON.parse(localStorage.getItem("currentState") ?? "");
+    this.winners = JSON.parse(localStorage.getItem("winners") ?? "");
   }
 
   openLink(event: MouseEvent): void {
@@ -25,7 +30,11 @@ export class BottomsheetComponent implements OnInit{
   }
 
   getRandomWinnerGif(): string {
-    if (this.winner?.name === 'Megan') return 'https://i.kym-cdn.com/photos/images/newsfeed/000/820/721/d8b.jpg';
+    if (this.winners.length === 1) {
+      let winner = this.winners[0];
+      if (winner?.name === "Megan")
+        return "https://i.kym-cdn.com/photos/images/newsfeed/000/820/721/d8b.jpg";
+    }
 
     return links[Math.floor(Math.random() * links.length)];
   }

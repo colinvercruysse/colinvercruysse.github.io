@@ -58,7 +58,7 @@ export class HomeComponent {
         id: i,
         name: n,
         currentRound: 1,
-        position: i,
+        position: 1,
         score: 0,
         total: 0,
         extra: 0,

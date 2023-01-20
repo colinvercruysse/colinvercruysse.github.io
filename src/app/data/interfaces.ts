@@ -19,7 +19,7 @@ export interface Game {
   type: EGame;
   maxScore: number;
   maxRounds: number;
-  winner: Player | undefined;
+  winner: Player[];
   round: number;
   extra: ExtraScore;
 }
