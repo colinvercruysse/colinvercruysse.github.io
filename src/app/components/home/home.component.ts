@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
-import { EGame, Game, GameState, Player } from 'src/app/data/interfaces';
-import { config } from 'src/app/data/config';
-import { Router } from '@angular/router';
+import { Component } from "@angular/core";
+import { EGame, Game, GameState, Player } from "src/app/data/interfaces";
+import { config } from "src/app/data/config";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: "app-home",
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.scss"],
 })
 export class HomeComponent {
   selectedGame: Game | undefined = config.games[0];
@@ -18,8 +18,10 @@ export class HomeComponent {
 
   gameInMemory: boolean = false;
 
+  maxScore: boolean = true;
+
   constructor(private router: Router) {
-    let state = localStorage.getItem('currentState');
+    let state = localStorage.getItem("currentState");
 
     if (state) this.gameInMemory = true;
   }
@@ -27,23 +29,23 @@ export class HomeComponent {
   addName(event: any) {
     if (event.target && event.target.value) {
       this.names.push(event.target.value);
-      event.target.value ="";
+      event.target.value = "";
     }
   }
 
   deleteName(name: string) {
-    this.names = this.names.filter(n => n !== name);
+    this.names = this.names.filter((n) => n !== name);
   }
 
   calculateNumberOfRounds(NumberOfPlayers: number, game: EGame): number {
-    switch(game) {
+    switch (game) {
       case EGame.CHINEESPOEPEN:
-        return (Math.floor(52/NumberOfPlayers) * 2);
+        return Math.floor(52 / NumberOfPlayers) * 2;
 
-     case EGame.NULLENSPEL:
-        return (Math.floor(52/NumberOfPlayers) * 2);
-        
-     default:
+      case EGame.NULLENSPEL:
+        return Math.floor(52 / NumberOfPlayers) * 2;
+
+      default:
         return Number.MAX_SAFE_INTEGER;
     }
   }
@@ -51,7 +53,7 @@ export class HomeComponent {
   startGame() {
     let i = 0;
     let players: Player[] = [];
-    this.names.forEach(n => {
+    this.names.forEach((n) => {
       players.push({
         id: i,
         name: n,
@@ -66,27 +68,52 @@ export class HomeComponent {
     });
 
     if (this.selectedGame === undefined || this.selectedGame === null) {
-      this.selectedGame = this.games.find(g => g.type === EGame.NONE);
+      this.selectedGame = this.games.find(
+        (g) => g.type === EGame.NONE_MAX_SCORE
+      );
     }
 
-    this.selectedGame!.maxRounds = this.calculateNumberOfRounds(players.length, this.selectedGame ? this.selectedGame.type : EGame.NONE);
+    if (this.selectedGame?.type === EGame.PHASE10) {
+      players.forEach((p) => (p.extra = 1));
+    }
+
+    this.selectedGame!.maxRounds = this.calculateNumberOfRounds(
+      players.length,
+      this.selectedGame ? this.selectedGame.type : EGame.NONE_MAX_SCORE
+    );
 
     this.gameState = {
       players: players,
       game: this.selectedGame!,
-      currentPlayer: players[0].id
+      currentPlayer: players[0].id,
+    };
+
+    if (this.gameState.game.type === EGame.NONE_MAX_SCORE) {
+      if (this.maxScore) {
+        this.gameState.game.type = EGame.NONE_MAX_SCORE;
+      } else {
+        this.gameState.game.type = EGame.NONE_MIN_SCORE;
+      }
     }
 
-    localStorage.setItem('currentState', JSON.stringify(this.gameState));
+    localStorage.setItem("currentState", JSON.stringify(this.gameState));
 
-    this.router.navigate(['/game'])
+    this.router.navigate(["/game"]);
   }
 
   returnToGame() {
-    this.router.navigate(['/game'])
+    this.router.navigate(["/game"]);
   }
 
   randomizePlayersList() {
-    this.names.sort((a,b) => 0.5 - Math.random());
+    this.names.sort((a, b) => 0.5 - Math.random());
+  }
+
+  onToggle(value: any): void {
+    if (value) {
+      this.maxScore = false;
+    } else {
+      this.maxScore = true;
+    }
   }
 }

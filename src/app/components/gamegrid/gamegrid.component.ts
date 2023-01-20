@@ -46,25 +46,21 @@ export class GamegridComponent implements OnInit {
 
     let player = state.players.find((p) => p.id === id);
 
-    switch (state.game.extra) {
-      case ExtraScore.NULLEN: {
-        if (player && player.total === 0) {
-          player.extra = player.extra + 1;
-        }
-
-        break;
-      }
-
-      case ExtraScore.PREVIOUSTOTAL: {
-        if (player) {
-          player.extra = player.total;
-        }
-      }
+    // Add previous total
+    if (player && state.game.extra === ExtraScore.PREVIOUSTOTAL) {
+      player.extra = player.total;
     }
 
     if (player) {
       player.score = score;
       player.total = player.total + score;
+    }
+
+    // Add nullen
+    if (player && state.game.extra === ExtraScore.NULLEN) {
+      if (player.total === 0) {
+        player.extra = player.extra + 1;
+      }
     }
 
     this.gameState = state;
@@ -85,7 +81,7 @@ export class GamegridComponent implements OnInit {
     let orderedPlayers = [...state.players];
     switch (this.gameState.game.type) {
       case EGame.UNO:
-        orderedPlayers = this.orderMostPointsFirst(state);
+        orderedPlayers = this.orderLeastPointsFirst(state);
         break;
 
       case EGame.CHINEESPOEPEN:
@@ -100,8 +96,12 @@ export class GamegridComponent implements OnInit {
         orderedPlayers = this.orderLeastPointsFirst(state);
         break;
 
-      case EGame.NONE:
+      case EGame.NONE_MAX_SCORE:
         orderedPlayers = this.orderMostPointsFirst(state);
+        break;
+
+      case EGame.NONE_MIN_SCORE:
+        orderedPlayers = this.orderLeastPointsFirst(state);
         break;
 
       default:

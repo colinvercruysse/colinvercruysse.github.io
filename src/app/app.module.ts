@@ -17,6 +17,7 @@ import { GamegridComponent } from './components/gamegrid/gamegrid.component';
 import { HomeComponent } from './components/home/home.component';
 import { BottomsheetComponent } from './components/bottomsheet/bottomsheet.component';
 import { RadiobuttonComponent } from './components/radiobutton/radiobutton.component';
+import { ToggleComponent } from './components/toggle/toggle.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { RadiobuttonComponent } from './components/radiobutton/radiobutton.compo
     GamegridComponent,
     HomeComponent,
     BottomsheetComponent,
-    RadiobuttonComponent
+    RadiobuttonComponent,
+    ToggleComponent
   ],
   imports: [
     BrowserModule,
