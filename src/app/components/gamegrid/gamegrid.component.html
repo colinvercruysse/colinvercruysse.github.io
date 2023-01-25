@@ -8,7 +8,7 @@
       <mat-header-cell *matHeaderCellDef [ngClass]="'small'">
         Pos.
       </mat-header-cell>
-      <mat-cell *matCellDef="let player" [ngClass]="'small'">
+      <mat-cell *matCellDef="let player" [ngClass]="getNgClass(player)">
         {{ player.position }}
       </mat-cell>
     </ng-container>
@@ -24,6 +24,7 @@
       <mat-header-cell *matHeaderCellDef> Score </mat-header-cell>
       <mat-cell *matCellDef="let player; let i = index">
         <input
+          #input
           matInput
           type="number"
           autoComplete="off"
@@ -56,11 +57,17 @@
 
   <div class="button-container">
     <div class="next-round-button-container">
-      <button class="btn" mat-button (click)="onNextRound()">Next round</button>
+      <button class="btn" mat-button (click)="onNextRound()">
+        Next round
+        <mat-icon class="icon">arrow_forward</mat-icon>
+      </button>
     </div>
     <div style="width: 30px"></div>
     <div class="next-round-button-container">
-      <button class="btn" mat-button (click)="onEndGame()">End game</button>
+      <button class="btn" mat-button (click)="onEndGame()">
+        End game
+        <mat-icon class="icon">exit_to_app</mat-icon>
+      </button>
     </div>
   </div>
 </div>

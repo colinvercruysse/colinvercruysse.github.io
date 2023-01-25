@@ -1,8 +1,11 @@
-import { Component, Input, OnInit } from "@angular/core";
 import {
-  MatBottomSheet,
-  MatBottomSheetRef,
-} from "@angular/material/bottom-sheet";
+  Component,
+  OnInit,
+  QueryList,
+  ViewChildren,
+  ElementRef,
+} from "@angular/core";
+import { MatBottomSheet } from "@angular/material/bottom-sheet";
 import { Router } from "@angular/router";
 import { EGame, ExtraScore, GameState, Player } from "src/app/data/interfaces";
 import { state } from "../../data/dummy";
@@ -17,6 +20,8 @@ export class GamegridComponent implements OnInit {
   public gameState: GameState;
 
   displayedColumns: string[] = ["position", "name", "score", "extra", "total"];
+
+  @ViewChildren("input") inputs: QueryList<ElementRef> | undefined;
 
   constructor(private _bottomSheet: MatBottomSheet, private router: Router) {
     let s: GameState;
@@ -37,6 +42,13 @@ export class GamegridComponent implements OnInit {
     }
 
     event.target.value = "";
+
+    // Change focus to the next input
+    this.inputs
+      ?.toArray()
+      [
+        index === this.gameState.players.length - 1 ? 0 : index + 1
+      ].nativeElement.focus();
   }
 
   addScoreToTotal(id: number, score: number) {
@@ -77,9 +89,7 @@ export class GamegridComponent implements OnInit {
     // Add round to game
     state.game.round = state.game.round + 1;
 
-    /**
-     * Update positions
-     */
+    // Update positions
     let scores: number[] = [];
     state.players.forEach((player) => {
       scores.push(
@@ -89,50 +99,38 @@ export class GamegridComponent implements OnInit {
 
     let uniqueScores = [...new Set(scores)];
 
-    let orderedPlayers = [...state.players];
     switch (this.gameState.game.type) {
       case EGame.UNO:
-        orderedPlayers = this.orderLeastPointsFirst(state);
         uniqueScores = this.sortAscending(uniqueScores);
         break;
 
       case EGame.CHINEESPOEPEN:
-        orderedPlayers = this.orderMostPointsFirst(state);
         uniqueScores = this.sortDescending(uniqueScores);
         break;
 
       case EGame.NULLENSPEL:
-        orderedPlayers = this.orderExtra(state);
         uniqueScores = this.sortDescending(uniqueScores);
         break;
 
       case EGame.PHASE10:
-        orderedPlayers = this.orderLeastPointsFirst(state);
         uniqueScores = this.sortAscending(uniqueScores);
         break;
 
       case EGame.NONE_MAX_SCORE:
-        orderedPlayers = this.orderMostPointsFirst(state);
         uniqueScores = this.sortDescending(uniqueScores);
         break;
 
       case EGame.NONE_MIN_SCORE:
-        orderedPlayers = this.orderLeastPointsFirst(state);
         uniqueScores = this.sortAscending(uniqueScores);
         break;
 
       default:
-        orderedPlayers = this.orderMostPointsFirst(state);
         uniqueScores = this.sortDescending(uniqueScores);
         break;
     }
 
+    // Change the players position
     state.players.forEach((player) => {
-      /**
-       * 1. Get unique values from all totals / extras
-       * 2. Order these from large -> small or small -> large (based on config)
-       * 3. position = index of this number
-       */
       player.position =
         uniqueScores.findIndex(
           (p) =>
@@ -144,6 +142,9 @@ export class GamegridComponent implements OnInit {
     // Persist
     this.gameState = state;
     this.save("currentState", JSON.stringify(this.gameState));
+
+    // Change focus to the first input
+    this.inputs?.toArray()[0].nativeElement.focus();
 
     if (
       this.gameState.players[0].currentRound === this.gameState.game.maxRounds
@@ -158,7 +159,7 @@ export class GamegridComponent implements OnInit {
   }
 
   /**
-   * From high to low
+   * Sort from high to low
    * @param list
    * @returns
    */
@@ -169,7 +170,7 @@ export class GamegridComponent implements OnInit {
   }
 
   /**
-   * From low to high
+   * Sort from low to high
    * @param list
    * @returns
    */
@@ -179,30 +180,11 @@ export class GamegridComponent implements OnInit {
     });
   }
 
-  orderMostPointsFirst(state: GameState): Player[] {
-    return [...state.players].sort((a, b) => {
-      if (a.total > b.total) return -1;
-      else if (a.total < b.total) return 1;
-      else return 0;
-    });
-  }
-
-  orderExtra(state: GameState): Player[] {
-    return [...state.players].sort((a, b) => {
-      if (a.extra > b.extra) return -1;
-      else if (a.extra < b.extra) return 1;
-      else return 0;
-    });
-  }
-
-  orderLeastPointsFirst(state: GameState): Player[] {
-    return [...state.players].sort((a, b) => {
-      if (a.total < b.total) return -1;
-      else if (a.total > b.total) return 1;
-      else return 0;
-    });
-  }
-
+  /**
+   * Persist the data to localstorage
+   * @param key
+   * @param data
+   */
   save(key: string, data: string) {
     localStorage.setItem(key, data);
   }
@@ -264,5 +246,23 @@ export class GamegridComponent implements OnInit {
         player.extra = player.extra + 1;
       }
     }
+  }
+
+  getNgClass(player: Player): string {
+    let base = "small";
+
+    if (player.position === 1) {
+      return base + " first";
+    }
+
+    let worstPosition = Math.max(
+      ...this.gameState.players.map((p) => p.position)
+    );
+
+    if (player.position === worstPosition) {
+      return base + " last";
+    }
+
+    return base;
   }
 }

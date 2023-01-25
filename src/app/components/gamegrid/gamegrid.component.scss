@@ -44,12 +44,24 @@
     font-size: 16px;
 }
 
-.btn:hover {
+.btn:focus {
     border: 1px solid $darkBlue;
     background-color: $blue;
     width: 150px;
-    color: white;
+    color: $white;
     font-size: 16px;
+}
+
+.first {
+    background-color: $green;
+}
+
+.last {
+    background-color: $red;
+}
+
+.icon {
+    color: $darkBlue
 }
 
 @media only screen and (min-width: 600px) {

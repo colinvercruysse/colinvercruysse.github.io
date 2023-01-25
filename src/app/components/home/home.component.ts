@@ -40,10 +40,10 @@ export class HomeComponent {
   calculateNumberOfRounds(NumberOfPlayers: number, game: EGame): number {
     switch (game) {
       case EGame.CHINEESPOEPEN:
-        return Math.floor(52 / NumberOfPlayers) * 2;
+        return Math.floor(52 / NumberOfPlayers) * 2 + 1;
 
       case EGame.NULLENSPEL:
-        return Math.floor(52 / NumberOfPlayers) * 2;
+        return Math.floor(52 / NumberOfPlayers) * 2 + 1;
 
       default:
         return Number.MAX_SAFE_INTEGER;
