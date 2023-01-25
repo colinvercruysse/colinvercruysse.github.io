@@ -130,14 +130,45 @@ export class GamegridComponent implements OnInit {
     }
 
     // Change the players position
-    state.players.forEach((player) => {
-      player.position =
-        uniqueScores.findIndex(
-          (p) =>
-            p ===
-            (state.game.type === EGame.NULLENSPEL ? player.extra : player.total)
-        ) + 1;
-    });
+    if (state.game.type === EGame.PHASE10) {
+      let unOrderedPlayers = [...state.players];
+
+      let combinations: [[number, number]] = [
+        [Number.MIN_SAFE_INTEGER, Number.MIN_SAFE_INTEGER],
+      ];
+
+      unOrderedPlayers.forEach((p) => {
+        combinations.push([p.extra, p.total]);
+      });
+
+      let orderedCombinations = combinations.sort((a, b) => {
+        if (a[0] === b[0]) {
+          return a[1] < b[1] ? -1 : 1;
+        } else {
+          return a[0] > b[0] ? -1 : 1;
+        }
+      });
+
+      state.players.forEach((player) => {
+        let pos =
+          orderedCombinations.findIndex(
+            (p) => player.extra === p[0] && player.total === p[1]
+          ) + 1;
+
+        player.position = pos;
+      });
+    } else {
+      state.players.forEach((player) => {
+        player.position =
+          uniqueScores.findIndex(
+            (p) =>
+              p ===
+              (state.game.type === EGame.NULLENSPEL
+                ? player.extra
+                : player.total)
+          ) + 1;
+      });
+    }
 
     // Persist
     this.gameState = state;
