@@ -11,35 +11,54 @@
     />
     <style>
       body {
-        background-image: url("https://images.unsplash.com/photo-1616235132417-99f443954d2e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80");
-        background-size: cover;
         font-family: "Roboto", "sans-serif";
+        background-color: #f8f7f3;
       }
       main {
         display: flex;
-        height: 100vh;
         justify-content: center;
         align-items: center;
         flex-direction: column;
       }
-      .header404 {
-        font-family: "Chango", cursive;
-        font-size: 48px;
+
+      h1 {
+        color: #065d9e;
       }
-      .content404 {
-        text-align: center;
+
+      img {
+        width: 75%;
+        height: auto;
+      }
+
+      @media only screen and (min-width: 600px) {
+        /* For tablets: */
+        img {
+          height: 40%;
+          width: auto;
+        }
+      }
+
+      @media only screen and (min-width: 768px) {
+        /* For desktop: */
+        img {
+          height: 40%;
+          width: auto;
+        }
       }
     </style>
   </head>
   <body>
     <main>
-      <h4 class="header404">404</h4>
-      <div class="content-404">
-        Uh-oh! We couldn't find the page you are looking for.
-      </div>
+      <h1>404</h1>
+      <div>Uh-oh! We couldn't find the page you are looking for.</div>
       <p>
-        <a href="/">Check our home page</a>
+        <a href="/">Return to home page</a>
       </p>
+      <img
+        src="https://i.imgflip.com/78qnre.jpg"
+        title="Return to Vercruysse gameboard"
+        alt="Return to Vercruysse gameboard"
+      />
     </main>
   </body>
 </html>
