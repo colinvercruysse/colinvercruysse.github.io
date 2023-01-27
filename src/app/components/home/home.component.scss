@@ -76,6 +76,7 @@ mat-list {
     width: 150px;
     color: white;
     font-size: 16px;
+    cursor: pointer;
 }
 
 .x-btn {
@@ -103,6 +104,10 @@ mat-list {
     border: 1px solid $blue;
     border-radius: 10px;
     margin-bottom: 45px;
+}
+
+h2 {
+    border-bottom: 1px solid $blue;
 }
 
 @media only screen and (min-width: 600px) {
