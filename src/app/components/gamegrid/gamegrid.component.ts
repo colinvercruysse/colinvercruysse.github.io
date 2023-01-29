@@ -43,12 +43,22 @@ export class GamegridComponent implements OnInit {
 
     event.target.value = "";
 
-    // Change focus to the next input
-    this.inputs
-      ?.toArray()
-      [
-        index === this.gameState.players.length - 1 ? 0 : index + 1
-      ].nativeElement.focus();
+    // Change focus to the next input or go to next round
+    if (index === this.gameState.players.length - 1) {
+      if (this.validateOnNextRound()) {
+        this.onNextRound();
+      } else {
+        // Go to the first element that has not filled in the score
+        let first = this.gameState.players.findIndex((p) => !p.roundFilled);
+
+        if (first > -1) this.inputs?.toArray()[first].nativeElement.focus();
+      }
+    } else {
+      if (this.validateOnNextRound()) {
+        this.onNextRound();
+      }
+      this.inputs?.toArray()[index + 1].nativeElement.focus();
+    }
   }
 
   addScoreToTotal(id: number, score: number) {
@@ -66,6 +76,7 @@ export class GamegridComponent implements OnInit {
     if (player) {
       player.score = score;
       player.total = player.total + score;
+      player.roundFilled = true;
     }
 
     // Add nullen
@@ -76,15 +87,18 @@ export class GamegridComponent implements OnInit {
     }
 
     this.gameState = state;
+
+    this.save("currentState", JSON.stringify(this.gameState));
   }
 
   onNextRound() {
     let state = this.gameState;
 
-    // Add round to each player
-    state.players.forEach(
-      (player) => (player.currentRound = player.currentRound + 1)
-    );
+    // Add round to each player and set all players to class toBeFilled
+    state.players.forEach((player) => {
+      player.currentRound = player.currentRound + 1;
+      player.roundFilled = false;
+    });
 
     // Add round to game
     state.game.round = state.game.round + 1;
@@ -234,6 +248,7 @@ export class GamegridComponent implements OnInit {
             position: 1,
             score: Number.MAX_SAFE_INTEGER,
             total: Number.MAX_SAFE_INTEGER,
+            roundFilled: false,
           },
         ];
   }
@@ -269,13 +284,34 @@ export class GamegridComponent implements OnInit {
     }
   }
 
-  addPhase(id: number) {
-    if (this.gameState.game.type === EGame.PHASE10) {
-      let player = this.gameState.players.find((p) => p.id === id);
+  onClickExtra(id: number) {
+    switch (this.gameState.game.type) {
+      case EGame.PHASE10:
+        this.addPhase(id);
+        break;
 
-      if (player) {
-        player.extra = player.extra + 1;
-      }
+      case EGame.NULLENSPEL:
+        this.removeNul(id);
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  addPhase(id: number) {
+    let player = this.gameState.players.find((p) => p.id === id);
+
+    if (player) {
+      player.extra = player.extra + 1;
+    }
+  }
+
+  removeNul(id: number) {
+    let player = this.gameState.players.find((p) => p.id === id);
+
+    if (player) {
+      player.extra = player.extra === 0 ? 0 : player.extra - 1;
     }
   }
 
@@ -295,5 +331,15 @@ export class GamegridComponent implements OnInit {
     }
 
     return base;
+  }
+
+  validateOnNextRound(): boolean {
+    let res = true;
+
+    for (let i = 0; i < this.gameState.players.length; i++) {
+      if (!this.gameState.players[i].roundFilled) return false;
+    }
+
+    return res;
   }
 }

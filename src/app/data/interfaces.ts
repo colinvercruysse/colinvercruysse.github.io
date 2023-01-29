@@ -12,6 +12,7 @@ export interface Player {
   currentRound: number;
   position: number;
   extra: number;
+  roundFilled: boolean;
 }
 
 export interface Game {

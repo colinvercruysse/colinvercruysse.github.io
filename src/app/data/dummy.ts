@@ -10,6 +10,7 @@ export let state: GameState = {
       total: 0,
       position: 1,
       extra: 0,
+      roundFilled: false,
     },
     {
       id: 1,
@@ -19,6 +20,7 @@ export let state: GameState = {
       currentRound: 0,
       position: 1,
       extra: 0,
+      roundFilled: false,
     },
     {
       id: 2,
@@ -28,6 +30,7 @@ export let state: GameState = {
       currentRound: 0,
       position: 1,
       extra: 0,
+      roundFilled: false,
     },
     {
       id: 3,
@@ -37,6 +40,7 @@ export let state: GameState = {
       currentRound: 0,
       position: 1,
       extra: 0,
+      roundFilled: false,
     },
   ],
   currentPlayer: 0,

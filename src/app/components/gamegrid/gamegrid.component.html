@@ -24,6 +24,7 @@
       <mat-header-cell *matHeaderCellDef> Score </mat-header-cell>
       <mat-cell *matCellDef="let player; let i = index">
         <input
+          [ngClass]="player.roundFilled ? '' : 'toBeFilled'"
           #input
           matInput
           type="number"
@@ -40,7 +41,7 @@
       <mat-header-cell *matHeaderCellDef>
         {{ getExtraLabel() }}
       </mat-header-cell>
-      <mat-cell *matCellDef="let player" (click)="addPhase(player.id)">
+      <mat-cell *matCellDef="let player" (click)="onClickExtra(player.id)">
         {{ player.extra }}</mat-cell
       >
     </ng-container>
@@ -56,13 +57,13 @@
   </mat-table>
 
   <div class="button-container">
-    <div class="next-round-button-container">
+    <!-- <div class="next-round-button-container">
       <button class="btn" mat-button (click)="onNextRound()">
         Next round
         <mat-icon class="icon">arrow_forward</mat-icon>
       </button>
     </div>
-    <div style="width: 30px"></div>
+    <div style="width: 30px"></div> -->
     <div class="next-round-button-container">
       <button class="btn" mat-button (click)="onEndGame()">
         End game

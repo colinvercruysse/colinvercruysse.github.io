@@ -62,6 +62,7 @@ export class HomeComponent {
         score: 0,
         total: 0,
         extra: 0,
+        roundFilled: false,
       });
 
       i++;
