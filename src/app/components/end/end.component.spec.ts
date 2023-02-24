@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BottomsheetComponent } from './bottomsheet.component';
+import { EndComponent } from './end.component';
 
-describe('BottomsheetComponent', () => {
-  let component: BottomsheetComponent;
-  let fixture: ComponentFixture<BottomsheetComponent>;
+describe('EndComponent', () => {
+  let component: EndComponent;
+  let fixture: ComponentFixture<EndComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BottomsheetComponent ]
+      declarations: [ EndComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(BottomsheetComponent);
+    fixture = TestBed.createComponent(EndComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

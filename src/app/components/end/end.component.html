@@ -1,14 +1,25 @@
-<div class="game-container">
-  <h1 class="title" (click)="navigateToHomescreen()">
-    {{ gameState.game.name }} - round {{ gameState.players[0].currentRound }}
-  </h1>
+<div class="end-container">
+  <h1 class="title" (click)="navigateToHomescreen()">End of game</h1>
+
+  <div class="winner-container" *ngIf="winners.length > 1">
+    <h2>🥇 Winners: 🥇</h2>
+    <div class="winners">
+      <h3 *ngFor="let winner of winners; let i = index">
+        {{ i == 0 ? "" : "🏆  " }}{{ winner?.name }}
+      </h3>
+    </div>
+  </div>
+  <div class="winner-container" *ngIf="winners.length <= 1">
+    <h2>🥇 Winner: {{ winners[0].name }} 🥇</h2>
+  </div>
+
   <mat-table [dataSource]="gameState.players" class="table">
     <!-- Position Column -->
     <ng-container matColumnDef="position" style="width: 20px">
       <mat-header-cell *matHeaderCellDef [ngClass]="'small'">
         Pos.
       </mat-header-cell>
-      <mat-cell *matCellDef="let player" [ngClass]="getNgClass(player)">
+      <mat-cell *matCellDef="let player" [ngStyle]="getNgStyle(player)">
         {{ player.position }}
       </mat-cell>
     </ng-container>
@@ -19,31 +30,12 @@
       <mat-cell *matCellDef="let player"> {{ player.name }} </mat-cell>
     </ng-container>
 
-    <!-- Score Column -->
-    <ng-container matColumnDef="score">
-      <mat-header-cell *matHeaderCellDef> Score </mat-header-cell>
-      <mat-cell *matCellDef="let player; let i = index">
-        <input
-          [ngClass]="player.roundFilled ? '' : 'toBeFilled'"
-          #input
-          matInput
-          type="number"
-          autoComplete="off"
-          placeholder="{{ player.score }}"
-          style="width: 35px"
-          (change)="saveScore($event, i)"
-        />
-      </mat-cell>
-    </ng-container>
-
     <!-- Extra Column -->
     <ng-container matColumnDef="extra">
       <mat-header-cell *matHeaderCellDef>
         {{ getExtraLabel() }}
       </mat-header-cell>
-      <mat-cell *matCellDef="let player" (click)="onClickExtra(player.id)">
-        {{ player.extra }}</mat-cell
-      >
+      <mat-cell *matCellDef="let player"> {{ player.extra }}</mat-cell>
     </ng-container>
 
     <!-- total Column -->
@@ -57,10 +49,10 @@
   </mat-table>
 
   <div class="button-container">
-    <div class="return-round-button-container">
-      <button class="btn" mat-button (click)="onEndGame()">
-        End game
-        <mat-icon class="icon">exit_to_app</mat-icon>
+    <div class="next-round-button-container">
+      <button class="btn" mat-button (click)="onReturnToGame()">
+        Return to game
+        <mat-icon class="icon">arrow_back</mat-icon>
       </button>
     </div>
   </div>

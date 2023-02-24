@@ -1,0 +1,98 @@
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { state } from "src/app/data/dummy";
+import { ExtraScore, GameState, Player } from "src/app/data/interfaces";
+
+@Component({
+  selector: "app-end",
+  templateUrl: "./end.component.html",
+  styleUrls: ["./end.component.scss"],
+})
+export class EndComponent implements OnInit {
+  public gameState: GameState;
+  winners: Player[] = [];
+  displayedColumns: string[] = ["position", "name", "extra", "total"];
+
+  constructor(private router: Router) {
+    let s: GameState;
+
+    if (localStorage.getItem("currentState")) {
+      s = JSON.parse(localStorage.getItem("currentState") ?? "");
+    } else {
+      s = state;
+    }
+
+    // Order the state players on position
+    s.players.sort(this.comparePositions);
+
+    this.gameState = s;
+  }
+
+  ngOnInit(): void {
+    this.winners = JSON.parse(localStorage.getItem("winners") ?? "");
+  }
+
+  navigateToHomescreen() {
+    this.router.navigate(["/home"]);
+  }
+
+  navigateToGame() {
+    this.router.navigate(["/game"]);
+  }
+
+  getNgStyle(player: Player): object {
+    if (player.position === 1) {
+      return {
+        "max-width": "60px",
+        "background-color": "#77dd77",
+      };
+    }
+
+    let worstPosition = Math.max(
+      ...this.gameState.players.map((p) => p.position)
+    );
+
+    if (player.position === worstPosition) {
+      return {
+        "max-width": "60px",
+        "background-color": "#ff6961",
+      };
+    }
+
+    // If player is not winner/loser, return orange background
+    return {
+      "max-width": "60px",
+      "background-color": "#FAC898",
+    };
+  }
+
+  comparePositions(a: Player, b: Player) {
+    if (a.position < b.position) {
+      return -1;
+    }
+    if (a.position > b.position) {
+      return 1;
+    }
+    return 0;
+  }
+
+  onReturnToGame() {
+    this.router.navigate(["/game"]);
+  }
+
+  getExtraLabel(): string {
+    switch (this.gameState.game.extra) {
+      case ExtraScore.PREVIOUSTOTAL:
+        return "Prev.";
+
+      case ExtraScore.NULLEN:
+        return "Nullen";
+
+      case ExtraScore.PHASE:
+        return "Phase";
+
+      default:
+        return "Prev.";
+    }
+  }
+}

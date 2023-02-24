@@ -5,11 +5,9 @@ import {
   ViewChildren,
   ElementRef,
 } from "@angular/core";
-import { MatBottomSheet } from "@angular/material/bottom-sheet";
 import { Router } from "@angular/router";
 import { EGame, ExtraScore, GameState, Player } from "src/app/data/interfaces";
 import { state } from "../../data/dummy";
-import { BottomsheetComponent } from "../bottomsheet/bottomsheet.component";
 
 @Component({
   selector: "app-gamegrid",
@@ -23,7 +21,7 @@ export class GamegridComponent implements OnInit {
 
   @ViewChildren("input") inputs: QueryList<ElementRef> | undefined;
 
-  constructor(private _bottomSheet: MatBottomSheet, private router: Router) {
+  constructor(private router: Router) {
     let s: GameState;
 
     if (localStorage.getItem("currentState")) {
@@ -199,7 +197,6 @@ export class GamegridComponent implements OnInit {
   }
 
   navigateToHomescreen() {
-    this.closeBottomSheet();
     this.router.navigate(["/home"]);
   }
 
@@ -257,15 +254,7 @@ export class GamegridComponent implements OnInit {
     let winners = this.calculateWinner(this.gameState);
     this.save("winners", JSON.stringify(winners));
 
-    this.openBottomSheet();
-  }
-
-  openBottomSheet(): void {
-    this._bottomSheet.open(BottomsheetComponent, { closeOnNavigation: true });
-  }
-
-  closeBottomSheet(): void {
-    this._bottomSheet.dismiss();
+    this.router.navigate(["/end"]);
   }
 
   getExtraLabel(): string {
