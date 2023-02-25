@@ -319,7 +319,7 @@ export class GamegridComponent implements OnInit {
       return base + " last";
     }
 
-    return base;
+    return base + " mid";
   }
 
   validateOnNextRound(): boolean {
