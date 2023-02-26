@@ -2,16 +2,28 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { state } from "src/app/data/dummy";
 import { ExtraScore, GameState, Player } from "src/app/data/interfaces";
+import {
+  bounceInUpOnEnterAnimation,
+  rubberBandAnimation,
+} from "angular-animations";
 
 @Component({
   selector: "app-end",
   templateUrl: "./end.component.html",
   styleUrls: ["./end.component.scss"],
+  animations: [
+    bounceInUpOnEnterAnimation({ anchor: "enter1" }),
+    bounceInUpOnEnterAnimation({ anchor: "enter2", delay: 100 }),
+    rubberBandAnimation(),
+  ],
 })
 export class EndComponent implements OnInit {
   public gameState: GameState;
   winners: Player[] = [];
   displayedColumns: string[] = ["position", "name", "extra", "total"];
+  animationState = false;
+  animationWithState = false;
+  hueBtnState = false;
 
   constructor(private router: Router) {
     let s: GameState;
@@ -30,6 +42,14 @@ export class EndComponent implements OnInit {
 
   ngOnInit(): void {
     this.winners = JSON.parse(localStorage.getItem("winners") ?? "");
+  }
+
+  animate() {
+    this.animationState = false;
+    setTimeout(() => {
+      this.animationState = true;
+      this.animationWithState = !this.animationWithState;
+    }, 1);
   }
 
   navigateToHomescreen() {
