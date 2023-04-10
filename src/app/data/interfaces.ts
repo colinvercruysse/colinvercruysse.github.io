@@ -23,6 +23,14 @@ export interface Game {
   winner: Player[];
   round: number;
   extra: ExtraScore;
+
+  saveScore(event: any, index: number): void;
+  addScoreToTotal(id: number, score: number): void;
+  onNextRound(): void;
+  sort(list: number[]): number[];
+  getExtraLabel(): string;
+  onClickExtra(id: number): void;
+  calculatePositions(): void;
 }
 
 export enum EGame {
