@@ -7,6 +7,7 @@ import {
 } from "@angular/core";
 import { Router } from "@angular/router";
 import { EGame, ExtraScore, GameState, IGame, Player } from "src/app/data/interfaces";
+import { GameFactory } from "src/app/games/GameFactory";
 
 @Component({
   selector: "app-gamegrid",
@@ -31,12 +32,16 @@ export class GamegridComponent implements OnInit {
    */
   @ViewChildren("input") inputs: QueryList<ElementRef> | undefined;
 
+  public game: IGame;
+
   constructor(private router: Router) {
     let s: GameState;
 
     s = JSON.parse(localStorage.getItem("currentState") ?? "");
 
     this.gameState = s;
+
+    this.game = new GameFactory().getGame(this.gameState.game.name);
   }
 
   ngOnInit(): void {}
@@ -195,19 +200,20 @@ export class GamegridComponent implements OnInit {
   }
 
   getExtraLabel(): string {
-    switch (this.gameState.game.extra) {
-      case ExtraScore.PREVIOUSTOTAL:
-        return "Prev.";
+    return "";
+    // switch (this.gameState.game.extra) {
+    //   case ExtraScore.PREVIOUSTOTAL:
+    //     return "Prev.";
 
-      case ExtraScore.NULLEN:
-        return "Nullen";
+    //   case ExtraScore.NULLEN:
+    //     return "Nullen";
 
-      case ExtraScore.PHASE:
-        return "Phase";
+    //   case ExtraScore.PHASE:
+    //     return "Phase";
 
-      default:
-        return "Prev.";
-    }
+    //   default:
+    //     return "Prev.";
+    // }
   }
 
   onClickExtra(id: number) {

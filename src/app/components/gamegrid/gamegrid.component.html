@@ -31,7 +31,7 @@
           autoComplete="off"
           placeholder="{{ player.score }}"
           style="width: 35px"
-          (change)="saveScore($event, i)"
+          (change)="game.saveScore($event, i, gameState, inputs)"
         />
       </mat-cell>
     </ng-container>
@@ -39,9 +39,9 @@
     <!-- Extra Column -->
     <ng-container matColumnDef="extra">
       <mat-header-cell *matHeaderCellDef>
-        {{ getExtraLabel() }}
+        {{ game.getExtraLabel() }}
       </mat-header-cell>
-      <mat-cell *matCellDef="let player" (click)="onClickExtra(player.id)">
+      <mat-cell *matCellDef="let player" (click)="game.onClickExtra(player.id)">
         {{ player.extra }}</mat-cell
       >
     </ng-container>

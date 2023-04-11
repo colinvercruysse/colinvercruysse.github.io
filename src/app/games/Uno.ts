@@ -1,3 +1,4 @@
+import { ElementRef, QueryList } from "@angular/core";
 import { EGame, ExtraScore, IGame, GameState, Player } from "../data/interfaces";
 
 export class Uno implements IGame {
@@ -14,7 +15,7 @@ export class Uno implements IGame {
   constructor() {
     let s: GameState;
 
-    s = JSON.parse(localStorage.getItem("currentState") ?? "");
+    s = JSON.parse(localStorage.getItem("currentState") ?? "{}");
 
     this.gameState = s;
   }
@@ -23,22 +24,36 @@ export class Uno implements IGame {
     return Number.MAX_SAFE_INTEGER
   }
 
-  saveScore(event: any, index: number): void {
+  saveScore(event: any, index: number, state: GameState, inputs: QueryList<ElementRef> | undefined): void {
     if (event.target && event.target.value) {
-      this.addScoreToTotal(index, parseInt(event.target.value));
+      this.addScoreToTotal(index, parseInt(event.target.value), state);
     }
 
     // Clear the input field.
     event.target.value = "";
 
     // Todo: Change focus to the next input or go to next round
+    // Change focus to the next input or go to next round
+    if (index === this.gameState.players.length - 1) {
+      if (this.validateOnNextRound(state)) {
+        this.onNextRound(state, inputs!);
+      } else {
+        // Go to the first element that has not filled in the score
+        let first = this.gameState.players.findIndex((p) => !p.roundFilled);
 
-    this.calculatePositions();
+        if (first > -1) inputs?.toArray()[first].nativeElement.focus();
+      }
+    } else {
+      if (this.validateOnNextRound(state)) {
+        this.onNextRound(state, inputs!);
+      }
+      inputs?.toArray()[index + 1].nativeElement.focus();
+    }
+
+    this.calculatePositions(state);
   }
 
-  addScoreToTotal(id: number, score: number): void {
-    let state = this.gameState;
-
+  addScoreToTotal(id: number, score: number, state: GameState): void {
     state.currentPlayer = id;
 
     let player = state.players.find((p) => p.id === id);
@@ -52,13 +67,10 @@ export class Uno implements IGame {
       player.roundFilled = true;
     }
 
-    this.gameState = state;
-
-    this.save("currentState", JSON.stringify(this.gameState));
+    this.save("currentState", JSON.stringify(state));
   }
-  onNextRound(): void {
-    let state = this.gameState;
 
+  onNextRound(state: GameState, inputs: QueryList<ElementRef>): void {
     // Add round to each player and set all players to class toBeFilled
     state.players.forEach((player) => {
       player.currentRound = player.currentRound + 1;
@@ -68,12 +80,13 @@ export class Uno implements IGame {
     // Add round to game
     state.game.round = state.game.round + 1;
 
-    this.calculatePositions();
+    this.calculatePositions(state);
 
-    // Todo: Change focus to the first input
+    // Change focus to the first input
+    inputs?.toArray()[0].nativeElement.focus();
 
     if (
-      this.gameState.players[0].currentRound === this.gameState.game.maxRounds
+      state.players[0].currentRound === state.game.maxRounds
     ) {
       // this.onEndGame();
     }
@@ -85,17 +98,15 @@ export class Uno implements IGame {
     });
   }
 
-  getExtraLabel(): string {
+  public getExtraLabel(): string {
     return "Prev.";
   }
 
-  onClickExtra(id: number): void {
+  public onClickExtra(id: number): void {
     return;
   }
 
-  calculatePositions(): void {
-    let state = this.gameState;
-
+  calculatePositions(state: GameState): void {
     // Update positions
     let scores: number[] = [];
     state.players.forEach((player) => {
@@ -112,8 +123,7 @@ export class Uno implements IGame {
     });
 
     // Persist
-    this.gameState = state;
-    this.save("currentState", JSON.stringify(this.gameState));
+    this.save("currentState", JSON.stringify(state));
   }
 
   /**
@@ -123,5 +133,15 @@ export class Uno implements IGame {
    */
   save(key: string, data: string) {
     localStorage.setItem(key, data);
+  }
+
+  validateOnNextRound(state: GameState): boolean {
+    let res = true;
+
+    for (let i = 0; i < state.players.length; i++) {
+      if (!state.players[i].roundFilled) return false;
+    }
+
+    return res;
   }
 }
