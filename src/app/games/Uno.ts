@@ -1,7 +1,6 @@
-import { state } from "../data/dummy";
-import { EGame, ExtraScore, Game, GameState, Player } from "../data/interfaces";
+import { EGame, ExtraScore, IGame, GameState, Player } from "../data/interfaces";
 
-export class Uno implements Game {
+export class Uno implements IGame {
   name: string = "Uno";
   type: EGame = EGame.UNO;
   maxRounds: number = Number.MAX_SAFE_INTEGER;
@@ -15,12 +14,13 @@ export class Uno implements Game {
   constructor() {
     let s: GameState;
 
-    if (localStorage.getItem("currentState")) {
-      s = JSON.parse(localStorage.getItem("currentState") ?? "");
-    } else {
-      s = state;
-    }
+    s = JSON.parse(localStorage.getItem("currentState") ?? "");
+
     this.gameState = s;
+  }
+
+  calculateNumberOfRounds(NumberOfPlayers: number): number {
+    return Number.MAX_SAFE_INTEGER
   }
 
   saveScore(event: any, index: number): void {

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Self } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { Game } from 'src/app/data/interfaces';
+import { IGame } from 'src/app/data/interfaces';
 
 @Component({
   selector: 'app-radiobutton',
@@ -9,7 +9,7 @@ import { Game } from 'src/app/data/interfaces';
 })
 export class RadiobuttonComponent implements ControlValueAccessor, OnInit {
   @Input()
-  value: Game | undefined;
+  value: IGame | undefined;
   
   model: any;
   

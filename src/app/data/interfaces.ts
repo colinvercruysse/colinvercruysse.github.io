@@ -1,7 +1,7 @@
 export interface GameState {
   players: Player[];
   currentPlayer: number;
-  game: Game;
+  game: IGame;
 }
 
 export interface Player {
@@ -15,7 +15,7 @@ export interface Player {
   roundFilled: boolean;
 }
 
-export interface Game {
+export interface IGame {
   name: string;
   type: EGame;
   maxScore: number;
@@ -31,6 +31,7 @@ export interface Game {
   getExtraLabel(): string;
   onClickExtra(id: number): void;
   calculatePositions(): void;
+  calculateNumberOfRounds(NumberOfPlayers: number): number;
 }
 
 export enum EGame {
@@ -49,5 +50,5 @@ export enum ExtraScore {
 }
 
 export interface Config {
-  games: Game[];
+  games: IGame[];
 }

@@ -1,16 +1,16 @@
-import { Component } from "@angular/core";
-import { EGame, Game, GameState, Player } from "src/app/data/interfaces";
-import { config } from "src/app/data/config";
+import { Component, OnInit } from "@angular/core";
+import { EGame, IGame, GameState, Player } from "src/app/data/interfaces";
 import { Router } from "@angular/router";
+import { GameFactory } from "src/app/games/GameFactory";
 
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.scss"],
 })
-export class HomeComponent {
-  selectedGame: Game | undefined = config.games[0];
-  games = config.games;
+export class HomeComponent implements OnInit {
+  selectedGame: IGame | undefined;
+  games: IGame[] = [];
 
   names: string[] = [];
 
@@ -20,10 +20,16 @@ export class HomeComponent {
 
   maxScore: boolean = true;
 
+  gameFactory: GameFactory = new GameFactory();
+
   constructor(private router: Router) {
     let state = localStorage.getItem("currentState");
 
     if (state) this.gameInMemory = true;
+  }
+  ngOnInit(): void {
+    this.games = this.gameFactory.getGames();
+    this.selectedGame = this.games[0];
   }
 
   addName(event: any) {
@@ -37,18 +43,18 @@ export class HomeComponent {
     this.names = this.names.filter((n) => n !== name);
   }
 
-  calculateNumberOfRounds(NumberOfPlayers: number, game: EGame): number {
-    switch (game) {
-      case EGame.CHINEESPOEPEN:
-        return Math.floor(52 / NumberOfPlayers) * 2 + 1;
+  // calculateNumberOfRounds(NumberOfPlayers: number, game: EGame): number {
+  //   switch (game) {
+  //     case EGame.CHINEESPOEPEN:
+  //       return Math.floor(52 / NumberOfPlayers) * 2 + 1;
 
-      case EGame.NULLENSPEL:
-        return Math.floor(52 / NumberOfPlayers) * 2 + 1;
+  //     case EGame.NULLENSPEL:
+  //       return Math.floor(52 / NumberOfPlayers) * 2 + 1;
 
-      default:
-        return Number.MAX_SAFE_INTEGER;
-    }
-  }
+  //     default:
+  //       return Number.MAX_SAFE_INTEGER;
+  //   }
+  // }
 
   startGame() {
     let i = 0;
@@ -78,10 +84,12 @@ export class HomeComponent {
       players.forEach((p) => (p.extra = 1));
     }
 
-    this.selectedGame!.maxRounds = this.calculateNumberOfRounds(
-      players.length,
-      this.selectedGame ? this.selectedGame.type : EGame.NONE_MAX_SCORE
-    );
+    // this.selectedGame!.maxRounds = this.calculateNumberOfRounds(
+    //   players.length,
+    //   this.selectedGame ? this.selectedGame.type : EGame.NONE_MAX_SCORE
+    // );
+
+    this.selectedGame!.maxRounds = this.selectedGame!.calculateNumberOfRounds(players.length);
 
     this.gameState = {
       players: players,

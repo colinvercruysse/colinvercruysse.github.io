@@ -6,8 +6,7 @@ import {
   ElementRef,
 } from "@angular/core";
 import { Router } from "@angular/router";
-import { EGame, ExtraScore, GameState, Player } from "src/app/data/interfaces";
-import { state } from "../../data/dummy";
+import { EGame, ExtraScore, GameState, IGame, Player } from "src/app/data/interfaces";
 
 @Component({
   selector: "app-gamegrid",
@@ -35,11 +34,8 @@ export class GamegridComponent implements OnInit {
   constructor(private router: Router) {
     let s: GameState;
 
-    if (localStorage.getItem("currentState")) {
-      s = JSON.parse(localStorage.getItem("currentState") ?? "");
-    } else {
-      s = state;
-    }
+    s = JSON.parse(localStorage.getItem("currentState") ?? "");
+
     this.gameState = s;
   }
 
