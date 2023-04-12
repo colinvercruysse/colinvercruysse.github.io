@@ -1,8 +1,7 @@
-import { EGame, ExtraScore, GameState, IGame, Player } from "../data/interfaces";
+import { ExtraScore, GameState, IGame, Player } from "../data/interfaces";
 
 export class Nullenspel implements IGame {
     name: string = "Nullenspel";
-    type: EGame = EGame.NULLENSPEL;
     maxScore: number = Number.MAX_SAFE_INTEGER;
     maxRounds: number = Number.MAX_SAFE_INTEGER;
     winner: Player[] = [];

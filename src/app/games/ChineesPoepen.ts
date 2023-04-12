@@ -1,8 +1,7 @@
-import { EGame, ExtraScore, GameState, IGame, Player } from "../data/interfaces";
+import { ExtraScore, GameState, IGame, Player } from "../data/interfaces";
 
 export class ChineesPoepen implements IGame {
     name: string = "Chinees Poepen";
-    type: EGame = EGame.CHINEESPOEPEN;
     maxScore: number = Number.MAX_SAFE_INTEGER;
     maxRounds: number = Number.MAX_SAFE_INTEGER;
     winner: Player[] = [];

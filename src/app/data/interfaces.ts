@@ -18,7 +18,6 @@ export interface Player {
 
 export interface IGame {
   name: string;
-  type: EGame;
   maxScore: number;
   maxRounds: number;
   winner: Player[];
@@ -32,15 +31,6 @@ export interface IGame {
   onClickExtra(id: number, state: GameState): void;
   calculatePositions(state: GameState): void;
   calculateNumberOfRounds(numberOfPlayers: number): number;
-}
-
-export enum EGame {
-  NONE_MIN_SCORE,
-  NONE_MAX_SCORE,
-  UNO,
-  CHINEESPOEPEN,
-  NULLENSPEL,
-  PHASE10,
 }
 
 export enum ExtraScore {

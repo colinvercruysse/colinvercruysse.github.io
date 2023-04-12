@@ -10,9 +10,6 @@
     </app-radiobutton>
   </div>
   <mat-divider class="divider"></mat-divider>
-  <div *ngIf="selectedGame?.type === 1">
-    <app-toggle (toggledTo)="onToggle($event)"></app-toggle>
-  </div>
   <div class="name-input-container">
     <input
       type="text"

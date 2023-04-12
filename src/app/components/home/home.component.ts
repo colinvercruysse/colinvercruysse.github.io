@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { EGame, IGame, GameState, Player } from "src/app/data/interfaces";
+import { IGame, GameState, Player } from "src/app/data/interfaces";
 import { Router } from "@angular/router";
 import { GameFactory } from "src/app/games/GameFactory";
 
@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit {
 
     if (state) this.gameInMemory = true;
   }
+
   ngOnInit(): void {
     this.games = this.gameFactory.getGames();
     this.selectedGame = this.games[0];
@@ -57,13 +58,7 @@ export class HomeComponent implements OnInit {
       i++;
     });
 
-    if (this.selectedGame === undefined || this.selectedGame === null) {
-      this.selectedGame = this.games.find(
-        (g) => g.type === EGame.NONE_MAX_SCORE
-      );
-    }
-
-    if (this.selectedGame?.type === EGame.PHASE10) {
+    if (this.selectedGame?.name === "Phase 10") {
       players.forEach((p) => (p.extra = 1));
     }
 
@@ -74,14 +69,6 @@ export class HomeComponent implements OnInit {
       game: this.selectedGame!,
       currentPlayer: players[0].id,
     };
-
-    if (this.gameState.game.type === EGame.NONE_MAX_SCORE) {
-      if (this.maxScore) {
-        this.gameState.game.type = EGame.NONE_MAX_SCORE;
-      } else {
-        this.gameState.game.type = EGame.NONE_MIN_SCORE;
-      }
-    }
 
     localStorage.setItem("currentState", JSON.stringify(this.gameState));
 
@@ -94,13 +81,5 @@ export class HomeComponent implements OnInit {
 
   randomizePlayersList() {
     this.names.sort((a, b) => 0.5 - Math.random());
-  }
-
-  onToggle(value: any): void {
-    if (value) {
-      this.maxScore = false;
-    } else {
-      this.maxScore = true;
-    }
   }
 }

@@ -1,8 +1,7 @@
-import { EGame, ExtraScore, IGame, GameState, Player } from "../data/interfaces";
+import { ExtraScore, IGame, GameState, Player } from "../data/interfaces";
 
 export class Uno implements IGame {
   name: string = "Uno";
-  type: EGame = EGame.UNO;
   maxRounds: number = Number.MAX_SAFE_INTEGER;
   maxScore: number = 501;
   winner: Player[] = [];
@@ -73,11 +72,6 @@ export class Uno implements IGame {
     this.save("currentState", JSON.stringify(state));
   }
 
-  /**
-   * Persist the data to localstorage
-   * @param key
-   * @param data
-   */
   save(key: string, data: string) {
     localStorage.setItem(key, data);
   }
