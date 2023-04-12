@@ -1,4 +1,3 @@
-import { ElementRef, QueryList } from "@angular/core";
 
 export interface GameState {
   players: Player[];
@@ -26,15 +25,13 @@ export interface IGame {
   round: number;
   extra: ExtraScore;
 
-  saveScore(event: any, index: number, state: GameState, inputs: QueryList<ElementRef> | undefined): void;
+  saveScore(event: any, index: number, state: GameState): void;
   addScoreToTotal(id: number, score: number, state: GameState): void;
-  onNextRound(state: GameState, inputs: QueryList<ElementRef>): void;
   sort(list: number[]): number[];
   getExtraLabel(): string;
-  onClickExtra(id: number): void;
+  onClickExtra(id: number, state: GameState): void;
   calculatePositions(state: GameState): void;
-  calculateNumberOfRounds(NumberOfPlayers: number): number;
-  validateOnNextRound(state: GameState): boolean 
+  calculateNumberOfRounds(numberOfPlayers: number): number;
 }
 
 export enum EGame {

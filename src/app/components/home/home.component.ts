@@ -11,13 +11,9 @@ import { GameFactory } from "src/app/games/GameFactory";
 export class HomeComponent implements OnInit {
   selectedGame: IGame | undefined;
   games: IGame[] = [];
-
   names: string[] = [];
-
   gameState: GameState | undefined;
-
   gameInMemory: boolean = false;
-
   maxScore: boolean = true;
 
   gameFactory: GameFactory = new GameFactory();
@@ -42,19 +38,6 @@ export class HomeComponent implements OnInit {
   deleteName(name: string) {
     this.names = this.names.filter((n) => n !== name);
   }
-
-  // calculateNumberOfRounds(NumberOfPlayers: number, game: EGame): number {
-  //   switch (game) {
-  //     case EGame.CHINEESPOEPEN:
-  //       return Math.floor(52 / NumberOfPlayers) * 2 + 1;
-
-  //     case EGame.NULLENSPEL:
-  //       return Math.floor(52 / NumberOfPlayers) * 2 + 1;
-
-  //     default:
-  //       return Number.MAX_SAFE_INTEGER;
-  //   }
-  // }
 
   startGame() {
     let i = 0;
@@ -83,11 +66,6 @@ export class HomeComponent implements OnInit {
     if (this.selectedGame?.type === EGame.PHASE10) {
       players.forEach((p) => (p.extra = 1));
     }
-
-    // this.selectedGame!.maxRounds = this.calculateNumberOfRounds(
-    //   players.length,
-    //   this.selectedGame ? this.selectedGame.type : EGame.NONE_MAX_SCORE
-    // );
 
     this.selectedGame!.maxRounds = this.selectedGame!.calculateNumberOfRounds(players.length);
 

@@ -6,7 +6,7 @@ import {
   ElementRef,
 } from "@angular/core";
 import { Router } from "@angular/router";
-import { EGame, ExtraScore, GameState, IGame, Player } from "src/app/data/interfaces";
+import { EGame, GameState, IGame, Player } from "src/app/data/interfaces";
 import { GameFactory } from "src/app/games/GameFactory";
 
 @Component({
@@ -44,7 +44,7 @@ export class GamegridComponent implements OnInit {
     this.game = new GameFactory().getGame(this.gameState.game.name);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   /**
    * Save the score to memory and calculate the positions.
@@ -52,9 +52,7 @@ export class GamegridComponent implements OnInit {
    * @param index : index of the input field, corresponds to the player id.
    */
   saveScore(event: any, index: number) {
-    if (event.target && event.target.value) {
-      this.addScoreToTotal(index, parseInt(event.target.value));
-    }
+    this.game.saveScore(event, index, this.gameState);
 
     // Clear the input field.
     event.target.value = "";
@@ -76,7 +74,7 @@ export class GamegridComponent implements OnInit {
       this.inputs?.toArray()[index + 1].nativeElement.focus();
     }
 
-    this.calculatePositions();
+    this.game.calculatePositions(this.gameState);
   }
 
   /**
@@ -84,35 +82,35 @@ export class GamegridComponent implements OnInit {
    * @param id : player id
    * @param score
    */
-  addScoreToTotal(id: number, score: number) {
-    let state = this.gameState;
+  // addScoreToTotal(id: number, score: number) {
+  //   let state = this.gameState;
 
-    state.currentPlayer = id;
+  //   state.currentPlayer = id;
 
-    let player = state.players.find((p) => p.id === id);
+  //   let player = state.players.find((p) => p.id === id);
 
-    // Add previous total
-    if (player && state.game.extra === ExtraScore.PREVIOUSTOTAL) {
-      player.extra = player.total;
-    }
+  //   // Add previous total
+  //   if (player && state.game.extra === ExtraScore.PREVIOUSTOTAL) {
+  //     player.extra = player.total;
+  //   }
 
-    if (player) {
-      player.score = score;
-      player.total = player.total + score;
-      player.roundFilled = true;
-    }
+  //   if (player) {
+  //     player.score = score;
+  //     player.total = player.total + score;
+  //     player.roundFilled = true;
+  //   }
 
-    // Add nullen
-    if (player && state.game.extra === ExtraScore.NULLEN) {
-      if (player.total === 0) {
-        player.extra = player.extra + 1;
-      }
-    }
+  //   // Add nullen
+  //   if (player && state.game.extra === ExtraScore.NULLEN) {
+  //     if (player.total === 0) {
+  //       player.extra = player.extra + 1;
+  //     }
+  //   }
 
-    this.gameState = state;
+  //   this.gameState = state;
 
-    this.save("currentState", JSON.stringify(this.gameState));
-  }
+  //   this.save("currentState", JSON.stringify(this.gameState));
+  // }
 
   onNextRound() {
     let state = this.gameState;
@@ -126,7 +124,7 @@ export class GamegridComponent implements OnInit {
     // Add round to game
     state.game.round = state.game.round + 1;
 
-    this.calculatePositions();
+    this.game.calculatePositions(this.gameState);
 
     // Change focus to the first input
     this.inputs?.toArray()[0].nativeElement.focus();
@@ -140,28 +138,6 @@ export class GamegridComponent implements OnInit {
 
   navigateToHomescreen() {
     this.router.navigate(["/home"]);
-  }
-
-  /**
-   * Sort from high to low
-   * @param list
-   * @returns
-   */
-  sortDescending(list: number[]): number[] {
-    return list.sort((a, b) => {
-      return b - a;
-    });
-  }
-
-  /**
-   * Sort from low to high
-   * @param list
-   * @returns
-   */
-  sortAscending(list: number[]): number[] {
-    return list.sort((a, b) => {
-      return a - b;
-    });
   }
 
   /**
@@ -179,17 +155,17 @@ export class GamegridComponent implements OnInit {
     return winners.length > 0
       ? winners
       : [
-          {
-            id: Number.MAX_SAFE_INTEGER,
-            name: "No winner",
-            currentRound: state.players[0].currentRound,
-            extra: Number.MAX_SAFE_INTEGER,
-            position: 1,
-            score: Number.MAX_SAFE_INTEGER,
-            total: Number.MAX_SAFE_INTEGER,
-            roundFilled: false,
-          },
-        ];
+        {
+          id: Number.MAX_SAFE_INTEGER,
+          name: "No winner",
+          currentRound: state.players[0].currentRound,
+          extra: Number.MAX_SAFE_INTEGER,
+          position: 1,
+          score: Number.MAX_SAFE_INTEGER,
+          total: Number.MAX_SAFE_INTEGER,
+          roundFilled: false,
+        },
+      ];
   }
 
   onEndGame() {
@@ -240,7 +216,7 @@ export class GamegridComponent implements OnInit {
       player.extra = player.extra + 1;
     }
 
-    this.calculatePositions();
+    //this.calculatePositions();
   }
 
   removeNul(id: number) {
@@ -279,125 +255,92 @@ export class GamegridComponent implements OnInit {
     return res;
   }
 
-  changePlayerPositionsPhase10(state: GameState) {
-    let unOrderedPlayers = [...state.players];
+  // calculatePositions() {
+  //   let state = this.gameState;
 
-    let combinations: [[number, number]] = [
-      [Number.MIN_SAFE_INTEGER, Number.MIN_SAFE_INTEGER],
-    ];
+  //   // Update positions
+  //   let scores: number[] = [];
+  //   state.players.forEach((player) => {
+  //     scores.push(
+  //       state.game.type === EGame.NULLENSPEL ? player.extra : player.total
+  //     );
+  //   });
 
-    unOrderedPlayers.forEach((p) => {
-      combinations.push([p.extra, p.total]);
-    });
+  //   let uniqueScores = [...new Set(scores)];
 
-    let orderedCombinations = combinations.sort((a, b) => {
-      if (a[0] === b[0]) {
-        return a[1] < b[1] ? -1 : 1;
-      } else {
-        return a[0] > b[0] ? -1 : 1;
-      }
-    });
+  //   switch (this.gameState.game.type) {
+  //     case EGame.UNO:
+  //       uniqueScores = this.sortAscending(uniqueScores);
+  //       break;
 
-    state.players.forEach((player) => {
-      let pos =
-        orderedCombinations.findIndex(
-          (p) => player.extra === p[0] && player.total === p[1]
-        ) + 1;
+  //     case EGame.CHINEESPOEPEN:
+  //       uniqueScores = this.sortDescending(uniqueScores);
+  //       break;
 
-      player.position = pos;
-    });
+  //     case EGame.NULLENSPEL:
+  //       uniqueScores = this.sortDescending(uniqueScores);
+  //       break;
 
-    this.gameState = state;
+  //     case EGame.PHASE10:
+  //       uniqueScores = this.sortAscending(uniqueScores);
+  //       break;
 
-    this.save("currentState", JSON.stringify(this.gameState));
-  }
+  //     case EGame.NONE_MAX_SCORE:
+  //       uniqueScores = this.sortDescending(uniqueScores);
+  //       break;
 
-  calculatePositions() {
-    let state = this.gameState;
+  //     case EGame.NONE_MIN_SCORE:
+  //       uniqueScores = this.sortAscending(uniqueScores);
+  //       break;
 
-    // Update positions
-    let scores: number[] = [];
-    state.players.forEach((player) => {
-      scores.push(
-        state.game.type === EGame.NULLENSPEL ? player.extra : player.total
-      );
-    });
+  //     default:
+  //       uniqueScores = this.sortDescending(uniqueScores);
+  //       break;
+  //   }
 
-    let uniqueScores = [...new Set(scores)];
+  //   // Change the players position
+  //   if (state.game.type === EGame.PHASE10) {
+  //     let unOrderedPlayers = [...state.players];
 
-    switch (this.gameState.game.type) {
-      case EGame.UNO:
-        uniqueScores = this.sortAscending(uniqueScores);
-        break;
+  //     let combinations: [[number, number]] = [
+  //       [Number.MIN_SAFE_INTEGER, Number.MIN_SAFE_INTEGER],
+  //     ];
 
-      case EGame.CHINEESPOEPEN:
-        uniqueScores = this.sortDescending(uniqueScores);
-        break;
+  //     unOrderedPlayers.forEach((p) => {
+  //       combinations.push([p.extra, p.total]);
+  //     });
 
-      case EGame.NULLENSPEL:
-        uniqueScores = this.sortDescending(uniqueScores);
-        break;
+  //     let orderedCombinations = combinations.sort((a, b) => {
+  //       if (a[0] === b[0]) {
+  //         return a[1] < b[1] ? -1 : 1;
+  //       } else {
+  //         return a[0] > b[0] ? -1 : 1;
+  //       }
+  //     });
 
-      case EGame.PHASE10:
-        uniqueScores = this.sortAscending(uniqueScores);
-        break;
+  //     state.players.forEach((player) => {
+  //       let pos =
+  //         orderedCombinations.findIndex(
+  //           (p) => player.extra === p[0] && player.total === p[1]
+  //         ) + 1;
 
-      case EGame.NONE_MAX_SCORE:
-        uniqueScores = this.sortDescending(uniqueScores);
-        break;
+  //       player.position = pos;
+  //     });
+  //   } else {
+  //     state.players.forEach((player) => {
+  //       player.position =
+  //         uniqueScores.findIndex(
+  //           (p) =>
+  //             p ===
+  //             (state.game.type === EGame.NULLENSPEL
+  //               ? player.extra
+  //               : player.total)
+  //         ) + 1;
+  //     });
+  //   }
 
-      case EGame.NONE_MIN_SCORE:
-        uniqueScores = this.sortAscending(uniqueScores);
-        break;
-
-      default:
-        uniqueScores = this.sortDescending(uniqueScores);
-        break;
-    }
-
-    // Change the players position
-    if (state.game.type === EGame.PHASE10) {
-      let unOrderedPlayers = [...state.players];
-
-      let combinations: [[number, number]] = [
-        [Number.MIN_SAFE_INTEGER, Number.MIN_SAFE_INTEGER],
-      ];
-
-      unOrderedPlayers.forEach((p) => {
-        combinations.push([p.extra, p.total]);
-      });
-
-      let orderedCombinations = combinations.sort((a, b) => {
-        if (a[0] === b[0]) {
-          return a[1] < b[1] ? -1 : 1;
-        } else {
-          return a[0] > b[0] ? -1 : 1;
-        }
-      });
-
-      state.players.forEach((player) => {
-        let pos =
-          orderedCombinations.findIndex(
-            (p) => player.extra === p[0] && player.total === p[1]
-          ) + 1;
-
-        player.position = pos;
-      });
-    } else {
-      state.players.forEach((player) => {
-        player.position =
-          uniqueScores.findIndex(
-            (p) =>
-              p ===
-              (state.game.type === EGame.NULLENSPEL
-                ? player.extra
-                : player.total)
-          ) + 1;
-      });
-    }
-
-    // Persist
-    this.gameState = state;
-    this.save("currentState", JSON.stringify(this.gameState));
-  }
+  //   // Persist
+  //   this.gameState = state;
+  //   this.save("currentState", JSON.stringify(this.gameState));
+  // }
 }
