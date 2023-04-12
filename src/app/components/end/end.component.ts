@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { state } from "src/app/data/dummy";
 import { ExtraScore, GameState, Player } from "src/app/data/interfaces";
 import {
   bounceInUpOnEnterAnimation,
@@ -28,11 +27,7 @@ export class EndComponent implements OnInit {
   constructor(private router: Router) {
     let s: GameState;
 
-    if (localStorage.getItem("currentState")) {
-      s = JSON.parse(localStorage.getItem("currentState") ?? "");
-    } else {
-      s = state;
-    }
+    s = JSON.parse(localStorage.getItem("currentState") ?? "");
 
     // Order the state players on position
     s.players.sort(this.comparePositions);

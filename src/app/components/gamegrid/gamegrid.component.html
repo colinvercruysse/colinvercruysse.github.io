@@ -39,9 +39,9 @@
     <!-- Extra Column -->
     <ng-container matColumnDef="extra">
       <mat-header-cell *matHeaderCellDef>
-        {{ getExtraLabel() }}
+        {{ game.getExtraLabel() }}
       </mat-header-cell>
-      <mat-cell *matCellDef="let player" (click)="onClickExtra(player.id)">
+      <mat-cell *matCellDef="let player" (click)="game.onClickExtra(player.id, gameState)">
         {{ player.extra }}</mat-cell
       >
     </ng-container>

@@ -1,7 +1,8 @@
+
 export interface GameState {
   players: Player[];
   currentPlayer: number;
-  game: Game;
+  game: IGame;
 }
 
 export interface Player {
@@ -15,23 +16,21 @@ export interface Player {
   roundFilled: boolean;
 }
 
-export interface Game {
+export interface IGame {
   name: string;
-  type: EGame;
   maxScore: number;
   maxRounds: number;
   winner: Player[];
   round: number;
   extra: ExtraScore;
-}
 
-export enum EGame {
-  NONE_MIN_SCORE,
-  NONE_MAX_SCORE,
-  UNO,
-  CHINEESPOEPEN,
-  NULLENSPEL,
-  PHASE10,
+  saveScore(event: any, index: number, state: GameState): void;
+  addScoreToTotal(id: number, score: number, state: GameState): void;
+  sort(list: number[]): number[];
+  getExtraLabel(): string;
+  onClickExtra(id: number, state: GameState): void;
+  calculatePositions(state: GameState): void;
+  calculateNumberOfRounds(numberOfPlayers: number): number;
 }
 
 export enum ExtraScore {
@@ -41,5 +40,5 @@ export enum ExtraScore {
 }
 
 export interface Config {
-  games: Game[];
+  games: IGame[];
 }

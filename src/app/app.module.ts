@@ -19,7 +19,6 @@ import { AppComponent } from "./app.component";
 import { GamegridComponent } from "./components/gamegrid/gamegrid.component";
 import { HomeComponent } from "./components/home/home.component";
 import { RadiobuttonComponent } from "./components/radiobutton/radiobutton.component";
-import { ToggleComponent } from "./components/toggle/toggle.component";
 import { EndComponent } from "./components/end/end.component";
 
 @NgModule({
@@ -28,7 +27,6 @@ import { EndComponent } from "./components/end/end.component";
     GamegridComponent,
     HomeComponent,
     RadiobuttonComponent,
-    ToggleComponent,
     EndComponent,
   ],
   imports: [
@@ -50,4 +48,4 @@ import { EndComponent } from "./components/end/end.component";
   bootstrap: [AppComponent],
   schemas: [NO_ERRORS_SCHEMA],
 })
-export class AppModule {}
+export class AppModule { }
