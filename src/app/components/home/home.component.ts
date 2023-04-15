@@ -80,6 +80,10 @@ export class HomeComponent implements OnInit {
     this.router.navigate(["/game"]);
   }
 
+  goToHallOfFame(): void {
+    this.router.navigate(["/halloffame"]);
+  }
+
   randomizePlayersList() {
     this.names.sort((a, b) => 0.5 - Math.random());
   }

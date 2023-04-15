@@ -34,11 +34,6 @@ export class EndComponent implements OnInit {
     s.players.sort(this.comparePositions);
 
     this.gameState = s;
-
-    // Persist game state to database
-    this.gameStateService.create(this.gameState).then(() => {
-      // console.log(this.gameState);
-    });
   }
 
   ngOnInit(): void {

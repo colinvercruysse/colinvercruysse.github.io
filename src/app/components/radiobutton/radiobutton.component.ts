@@ -10,27 +10,27 @@ import { IGame } from 'src/app/data/interfaces';
 export class RadiobuttonComponent implements ControlValueAccessor, OnInit {
   @Input()
   value: IGame | undefined;
-  
-  model: any;
-  
-  onChange = (value: any) => {};
-  onTouched = () => {};
 
-  
+  model: any;
+
+  onChange = (value: any) => { };
+  onTouched = () => { };
+
+
   checked: boolean = false;
 
   constructor(@Self() private ngControl: NgControl) {
     ngControl.valueAccessor = this;
   }
-  
+
   ngOnInit() {
     this.ngControl.control!.valueChanges.subscribe(value => {
       // Check to ensure the value wasn't already set (Template driven forms)
-      if(this.model === value) return;
+      if (this.model === value) return;
       this.writeValue(value);
     });
   }
-  
+
   writeValue(obj: any): void {
     this.model = obj;
   }
@@ -41,7 +41,7 @@ export class RadiobuttonComponent implements ControlValueAccessor, OnInit {
     this.onTouched = fn;
   }
   setDisabledState?(isDisabled: boolean): void {
-    () => {}
+    () => { }
   }
 
   select() {

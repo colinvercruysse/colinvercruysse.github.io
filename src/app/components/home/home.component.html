@@ -10,6 +10,26 @@
     </app-radiobutton>
   </div>
   <mat-divider class="divider"></mat-divider>
+  <div class="extra-container">
+    <button
+      *ngIf="gameInMemory"
+      class="btn"
+      mat-button
+      (click)="returnToGame()"
+    >
+      <!-- <mat-icon>arrow-right</mat-icon> -->
+      Reload game
+      <mat-icon class="icon">cached</mat-icon>
+    </button>
+    <button
+      class="btn"
+      mat-button
+      (click)="goToHallOfFame()"
+    >
+      Hall of Fame
+      <mat-icon class="icon">star</mat-icon>
+    </button>
+  </div>
   <div class="name-input-container">
     <input
       type="text"
@@ -64,16 +84,6 @@
       <!-- <mat-icon>arrow-right</mat-icon> -->
       Randomizer
       <mat-icon class="icon">shuffle</mat-icon>
-    </button>
-    <button
-      *ngIf="gameInMemory"
-      class="btn"
-      mat-button
-      (click)="returnToGame()"
-    >
-      <!-- <mat-icon>arrow-right</mat-icon> -->
-      Reload game
-      <mat-icon class="icon">cached</mat-icon>
     </button>
   </div>
 </div>
