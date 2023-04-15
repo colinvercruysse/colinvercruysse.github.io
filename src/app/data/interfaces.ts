@@ -3,6 +3,7 @@ export interface GameState {
   players: Player[];
   currentPlayer: number;
   game: IGame;
+  date: Date
 }
 
 export interface Player {
