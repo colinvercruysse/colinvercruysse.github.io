@@ -68,6 +68,7 @@ export class HomeComponent implements OnInit {
       players: players,
       game: this.selectedGame!,
       currentPlayer: players[0].id,
+      date: new Date()
     };
 
     localStorage.setItem("currentState", JSON.stringify(this.gameState));

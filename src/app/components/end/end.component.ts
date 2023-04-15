@@ -5,6 +5,7 @@ import {
   bounceInUpOnEnterAnimation,
   rubberBandAnimation,
 } from "angular-animations";
+import { GameStateService } from "src/app/services/game.service";
 
 @Component({
   selector: "app-end",
@@ -24,7 +25,7 @@ export class EndComponent implements OnInit {
   animationWithState = false;
   hueBtnState = false;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private gameStateService: GameStateService) {
     let s: GameState;
 
     s = JSON.parse(localStorage.getItem("currentState") ?? "");
@@ -33,6 +34,11 @@ export class EndComponent implements OnInit {
     s.players.sort(this.comparePositions);
 
     this.gameState = s;
+
+    // Persist game state to database
+    this.gameStateService.create(this.gameState).then(() => {
+      // console.log(this.gameState);
+    });
   }
 
   ngOnInit(): void {

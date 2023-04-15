@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "gameboard-13854": {
+      "hosting": {
+        "vercruyssegameboard": [
+          "gameboardvercruysse"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "gameboard-13854"
+  }
+}

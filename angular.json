@@ -100,6 +100,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "vercruyssegameboard:build:production",
+            "firebaseProject": "gameboard-13854",
+            "firebaseHostingSite": "gameboardvercruysse"
+          }
         }
       }
     }
