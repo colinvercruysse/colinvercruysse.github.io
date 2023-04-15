@@ -2,6 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { IGame, GameState, Player } from "src/app/data/interfaces";
 import { Router } from "@angular/router";
 import { GameFactory } from "src/app/games/GameFactory";
+import { AngularFireDatabase } from '@angular/fire/compat/database';
+import Tutorial, { TutorialService } from "src/app/services/tutorial.service";
 
 @Component({
   selector: "app-home",
@@ -18,10 +20,17 @@ export class HomeComponent implements OnInit {
 
   gameFactory: GameFactory = new GameFactory();
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private service: TutorialService) {
     let state = localStorage.getItem("currentState");
 
     if (state) this.gameInMemory = true;
+
+    let tut = new Tutorial();
+    tut.title = "Tucker";
+
+    this.service.create(tut).then(() => {
+      console.log('Created new item successfully!');
+    });
   }
 
   ngOnInit(): void {

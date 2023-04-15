@@ -106,3 +106,7 @@ dist
 .angular
 
 docs/404.html
+# Firebase
+.firebase
+*-debug.log
+.runtimeconfig.json
