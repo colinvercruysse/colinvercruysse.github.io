@@ -15,8 +15,6 @@ export class HalloffameComponent implements OnInit {
   games: IGame[] = [];
   selectedGame: IGame | undefined;
 
-  selectedGame$: Observable<IGame | undefined> = of(undefined);
-
   constructor(private router: Router, private db: GameStateService) {
 
   }
@@ -24,8 +22,6 @@ export class HalloffameComponent implements OnInit {
   ngOnInit(): void {
     this.games = this.gameFactory.getGames();
     this.selectedGame = this.games[0];
-
-    this.selectedGame$.subscribe(x => console.log(x?.name))
   }
 
   navigateToHomescreen() {
@@ -38,5 +34,17 @@ export class HalloffameComponent implements OnInit {
     });
 
     return [];
+  }
+
+  onSelectedValueChange(selectedValue: IGame) {
+    if (!selectedValue) return;
+
+    this.db.getAll().valueChanges().subscribe(states => {
+      //console.log(selectedValue.name, states);
+    })
+  }
+
+  obs(game: IGame | undefined): Observable<IGame> {
+    return of(game!);
   }
 }

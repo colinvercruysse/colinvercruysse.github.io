@@ -26,6 +26,7 @@ import { provideDatabase, getDatabase } from '@angular/fire/database';
 import { AngularFireModule } from "@angular/fire/compat";
 import { AngularFireDatabaseModule } from "@angular/fire/compat/database";
 import { HalloffameComponent } from './components/halloffame/halloffame.component';
+import { MostwinsComponent } from './components/halloffame/mostwins/mostwins.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { HalloffameComponent } from './components/halloffame/halloffame.componen
     RadiobuttonComponent,
     EndComponent,
     HalloffameComponent,
+    MostwinsComponent,
   ],
   imports: [
     BrowserModule,

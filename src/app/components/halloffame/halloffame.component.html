@@ -9,7 +9,7 @@
     <app-radiobutton
       *ngFor="let game of games"
       [value]="game"
-      [(ngModel)]="selectedGame$"
+      [(ngModel)]="selectedGame"
     >
     </app-radiobutton>
   </div>
@@ -19,6 +19,7 @@
         Select a game
     </div>
   </div>
+  <app-mostwins></app-mostwins>
     <!-- E.g. Most games won, most games played, best at every game -->
   </div>
   
