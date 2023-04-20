@@ -1,23 +1,14 @@
 <div class="end-container" [@enter1]>
   <h1 class="title" (click)="navigateToHomescreen()">End of game</h1>
-  <div
-    class="winner-container"
-    *ngIf="winners.length > 1"
-    [@rubberBand]="animationState"
-  >
+  <div class="winner-container" *ngIf="winners.length > 1" [@rubberBand]="animationState">
     <h2>🥇 Winners: 🥇</h2>
     <div class="winners">
       <h3 *ngFor="let winner of winners; let i = index">
-        {{ i == 0 ? "" : "🏆  " }}{{ winner?.name }}
+        {{ i == 0 ? "" : "🏆 " }}{{ winner?.name }}
       </h3>
     </div>
   </div>
-  <div
-    class="winner-container"
-    *ngIf="winners.length <= 1"
-    [@enter2]
-    [@rubberBand]="animationState"
-  >
+  <div class="winner-container" *ngIf="winners.length <= 1" [@enter2] [@rubberBand]="animationState">
     <h2>🥇 Winner: {{ winners[0].name }} 🥇</h2>
   </div>
 
@@ -35,7 +26,7 @@
     <!-- Name Column -->
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-      <mat-cell *matCellDef="let player"> {{ player.name }} </mat-cell>
+      <mat-cell *matCellDef="let player">{{ player.name === "Chadia" ? "🏆" : ""}} {{ player.name }}</mat-cell>
     </ng-container>
 
     <!-- Extra Column -->
