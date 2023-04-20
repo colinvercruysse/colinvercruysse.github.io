@@ -23,16 +23,8 @@
     <ng-container matColumnDef="score">
       <mat-header-cell *matHeaderCellDef> Score </mat-header-cell>
       <mat-cell *matCellDef="let player; let i = index">
-        <input
-          [ngClass]="player.roundFilled ? '' : 'toBeFilled'"
-          #input
-          matInput
-          type="number"
-          autoComplete="off"
-          placeholder="{{ player.score }}"
-          style="width: 35px"
-          (change)="saveScore($event, i)"
-        />
+        <input [ngClass]="player.roundFilled ? '' : 'toBeFilled'" #input matInput type="number" autoComplete="off"
+          placeholder="{{ player.score }}" style="width: 50px" (change)="saveScore($event, i)" />
       </mat-cell>
     </ng-container>
 
@@ -42,8 +34,7 @@
         {{ game.getExtraLabel() }}
       </mat-header-cell>
       <mat-cell *matCellDef="let player" (click)="game.onClickExtra(player.id, gameState)">
-        {{ player.extra }}</mat-cell
-      >
+        {{ player.extra }}</mat-cell>
     </ng-container>
 
     <!-- total Column -->

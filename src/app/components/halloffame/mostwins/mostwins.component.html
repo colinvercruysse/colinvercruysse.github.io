@@ -14,7 +14,7 @@
         <!-- Name Column -->
         <ng-container matColumnDef="name">
             <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-            <mat-cell *matCellDef="let data"> {{ data.name }} </mat-cell>
+            <mat-cell *matCellDef="let data">{{ data.name === "Chadia" ? "🏆" : ""}} {{ data.name }} </mat-cell>
         </ng-container>
 
         <!-- total Column -->
