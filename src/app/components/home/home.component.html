@@ -18,7 +18,13 @@
     </button>
   </div>
   <div class="name-input-container">
-    <input type="text" autoComplete="off" placeholder="Name" (change)="addName($event)" />
+
+    <input type="search" list="languages" placeholder="Name" (change)="addName($event)" />
+
+    <datalist id="languages">
+      <option *ngFor="let player of knownPlayers" value={{player.name}}></option>
+    </datalist>
+
     <h2>Players {{ names.length > 0 ? "(" + names.length + ")" : "" }}</h2>
     <mat-list *ngIf="names.length > 0" class="names-list" role="list" #namesList>
       <mat-list-item *ngFor="let name of names">

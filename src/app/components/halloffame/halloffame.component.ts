@@ -17,7 +17,7 @@ export class HalloffameComponent implements OnInit, OnDestroy {
 
   destroy$ = new Subject();
 
-  constructor(private router: Router, private db: GameStateService) {
+  constructor(private router: Router) {
 
   }
   ngOnDestroy(): void {
