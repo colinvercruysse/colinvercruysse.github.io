@@ -41,7 +41,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     // Fill the players dropdown menu
     this.db.getAllPlayers().valueChanges().pipe(takeUntil(this.destroy$)).subscribe(
       players => {
-        this.knownPlayers = [...new Set(players)]
+        this.knownPlayers = [...new Set(players.sort((a, b) => {
+          if (a.name > b.name) return 1;
+          else if (a.name < b.name) return -1;
+          return 0;
+        }))]
       }
     )
   }
