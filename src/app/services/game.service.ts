@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
-import { GameState, IGame } from '../data/interfaces';
+import { GameState, IGame, Player } from '../data/interfaces';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -8,12 +8,15 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class GameStateService {
     private dbPath = '/gamestates';
+    private dbNamePath = '/players';
     private selectedGame$ = new BehaviorSubject<IGame | undefined>(undefined);
 
     gameStatesRef: AngularFireList<GameState>;
+    namesRef: AngularFireList<Player>;
 
     constructor(private db: AngularFireDatabase) {
         this.gameStatesRef = db.list(this.dbPath);
+        this.namesRef = db.list(this.dbNamePath);
     }
 
     getAll(): AngularFireList<GameState> {
@@ -44,5 +47,13 @@ export class GameStateService {
         if (this.selectedGame$.value && this.selectedGame$.value.name === game.name) return;
 
         this.selectedGame$.next(game);
+    }
+
+    getAllPlayers(): AngularFireList<Player> {
+        return this.namesRef;
+    }
+
+    addPlayer(player: Player): any {
+        return this.namesRef.push(player);
     }
 }

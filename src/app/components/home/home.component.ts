@@ -1,14 +1,16 @@
-import { Component, OnInit } from "@angular/core";
-import { IGame, GameState, Player } from "src/app/data/interfaces";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { IGame, GameState, Player, ExtraScore } from "src/app/data/interfaces";
 import { Router } from "@angular/router";
 import { GameFactory } from "src/app/games/GameFactory";
+import { GameStateService } from "src/app/services/game.service";
+import { Subject, takeUntil } from "rxjs";
 
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.scss"],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   selectedGame: IGame | undefined;
   games: IGame[] = [];
   names: string[] = [];
@@ -16,22 +18,52 @@ export class HomeComponent implements OnInit {
   gameInMemory: boolean = false;
   maxScore: boolean = true;
 
+  destroy$ = new Subject<boolean>();
+
   gameFactory: GameFactory = new GameFactory();
 
-  constructor(private router: Router) {
+  knownPlayers: Player[] = [];
+
+  constructor(private router: Router, private db: GameStateService) {
     let state = localStorage.getItem("currentState");
 
     if (state) this.gameInMemory = true;
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+  }
+
   ngOnInit(): void {
     this.games = this.gameFactory.getGames();
     this.selectedGame = this.games[0];
+
+    // Fill the players dropdown menu
+    this.db.getAllPlayers().valueChanges().pipe(takeUntil(this.destroy$)).subscribe(
+      players => {
+        this.knownPlayers = [...new Set(players)]
+      }
+    )
   }
 
   addName(event: any) {
     if (event.target && event.target.value) {
       this.names.push(this.capitalizeFirstLetter(event.target.value.trim()));
+
+      // If the player is not a known name, add it to the database with some default values
+      if (!this.knownPlayers.find(p => p.name === this.capitalizeFirstLetter(event.target.value.trim()))) {
+        this.db.addPlayer({
+          id: 0,
+          currentRound: 0,
+          extra: ExtraScore.PREVIOUSTOTAL,
+          name: this.capitalizeFirstLetter(event.target.value.trim()),
+          position: 0,
+          roundFilled: false,
+          score: 0,
+          total: 0
+        });
+      }
+
       event.target.value = "";
     }
   }
@@ -92,3 +124,4 @@ export class HomeComponent implements OnInit {
     return s.charAt(0).toUpperCase() + s.slice(1);
   }
 }
+
