@@ -20,6 +20,17 @@
     width: 100%;
 }
 
+.extra-container {
+    width: 100%;
+    opacity: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
 input[type=text] {
     width: 100%;
     padding: 12px 20px;
@@ -28,7 +39,7 @@ input[type=text] {
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-  }
+}
 
 .row {
     display: flex;
@@ -54,7 +65,7 @@ mat-list {
 }
 
 .next-container {
-    width:100%; 
+    width: 100%;
     opacity: 1;
     display: flex;
     flex-direction: row;
@@ -87,6 +98,10 @@ mat-list {
     color: $darkBlue
 }
 
+.hall-of-fame-icon {
+    color: $gold;
+}
+
 .icon:hover {
     color: white;
 }
@@ -111,15 +126,17 @@ h2 {
 }
 
 @media only screen and (min-width: 600px) {
+
     /* For tablets: */
     .home-container {
         width: 80vw;
     }
-  }
+}
 
-  @media only screen and (min-width: 768px) {
+@media only screen and (min-width: 768px) {
+
     /* For desktop: */
     .home-container {
         width: 80vw;
     }
-  }
+}

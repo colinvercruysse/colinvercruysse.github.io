@@ -1,0 +1,33 @@
+<div class="game-container">
+    <h2 class="title">Last game</h2>
+    <div *ngIf="state;else noGamesPlayed" class="main-container">
+        <div class="parent">
+            <div>
+                🃏 Game
+            </div>
+            <div>
+                {{state.game.name}}
+            </div>
+            <div>
+                ⏰ Date
+            </div>
+            <div>
+                {{state.date | date : 'EEE dd/MM/yyyy, HH:mm'}}
+            </div>
+            <div>
+                🔗 Link
+            </div>
+            <div>
+                <a (click)="goToGame()">Game</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<ng-template #noGamesPlayed>
+    <div class="caption">
+        No games played yet... 😴
+    </div>
+</ng-template>

@@ -1,0 +1,15 @@
+<div class="main-container">
+  <h1 class="title" (click)="navigateToHomescreen()">
+    <mat-icon class="icon">star</mat-icon>
+    Hall of Fame
+    <mat-icon class="icon">star</mat-icon>
+  </h1>
+  <mat-divider class="divider"></mat-divider>
+  <div class="radio-group">
+    <app-radiobutton *ngFor="let game of games" [value]="game" [(ngModel)]="selectedGame">
+    </app-radiobutton>
+  </div>
+  <mat-divider class="divider"></mat-divider>
+  <app-mostwins [maxNumberOfPlayers]="5"></app-mostwins>
+  <app-lastgame></app-lastgame>
+</div>

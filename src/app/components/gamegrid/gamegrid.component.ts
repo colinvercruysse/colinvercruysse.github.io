@@ -8,6 +8,7 @@ import {
 import { Router } from "@angular/router";
 import { GameState, IGame, Player } from "src/app/data/interfaces";
 import { GameFactory } from "src/app/games/GameFactory";
+import { GameStateService } from "src/app/services/game.service";
 
 @Component({
   selector: "app-gamegrid",
@@ -34,7 +35,7 @@ export class GamegridComponent implements OnInit {
 
   public game: IGame;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private gameStateService: GameStateService) {
     let s: GameState;
 
     s = JSON.parse(localStorage.getItem("currentState") ?? "");
@@ -131,6 +132,8 @@ export class GamegridComponent implements OnInit {
     let winners = this.calculateWinner(this.gameState);
     this.save("winners", JSON.stringify(winners));
 
+    this.persist();
+
     this.router.navigate(["/end"]);
   }
 
@@ -160,5 +163,12 @@ export class GamegridComponent implements OnInit {
     }
 
     return res;
+  }
+
+  persist(): void {
+    // Persist game state to database
+    this.gameStateService.create(this.gameState).then(() => {
+      // console.log(this.gameState);
+    });
   }
 }

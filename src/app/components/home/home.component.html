@@ -2,28 +2,25 @@
   <h1 class="title">Vercruysse gameboard</h1>
   <mat-divider class="divider"></mat-divider>
   <div class="radio-group">
-    <app-radiobutton
-      *ngFor="let game of games"
-      [value]="game"
-      [(ngModel)]="selectedGame"
-    >
+    <app-radiobutton *ngFor="let game of games" [value]="game" [(ngModel)]="selectedGame">
     </app-radiobutton>
   </div>
   <mat-divider class="divider"></mat-divider>
+  <div class="extra-container">
+    <button *ngIf="gameInMemory" class="btn" mat-button (click)="returnToGame()">
+      <!-- <mat-icon>arrow-right</mat-icon> -->
+      Reload game
+      <mat-icon class="icon">cached</mat-icon>
+    </button>
+    <button class="btn" mat-button (click)="goToHallOfFame()">
+      Hall of Fame
+      <mat-icon class="hall-of-fame-icon">star</mat-icon>
+    </button>
+  </div>
   <div class="name-input-container">
-    <input
-      type="text"
-      autoComplete="off"
-      placeholder="Name"
-      (change)="addName($event)"
-    />
+    <input type="text" autoComplete="off" placeholder="Name" (change)="addName($event)" />
     <h2>Players {{ names.length > 0 ? "(" + names.length + ")" : "" }}</h2>
-    <mat-list
-      *ngIf="names.length > 0"
-      class="names-list"
-      role="list"
-      #namesList
-    >
+    <mat-list *ngIf="names.length > 0" class="names-list" role="list" #namesList>
       <mat-list-item *ngFor="let name of names">
         <div class="row">
           <div class="name-row">
@@ -32,12 +29,7 @@
               {{ name }}
             </div>
           </div>
-          <button
-            mat-icon-button
-            matTooltip="Remove"
-            (click)="deleteName(name)"
-            aria-label="Remove"
-          >
+          <button mat-icon-button matTooltip="Remove" (click)="deleteName(name)" aria-label="Remove">
             <mat-icon class="x-btn">cancel</mat-icon>
           </button>
         </div>
@@ -45,35 +37,15 @@
     </mat-list>
   </div>
   <div class="next-container">
-    <button
-      class="btn"
-      mat-button
-      (click)="startGame()"
-      [disabled]="names.length === 0"
-    >
+    <button class="btn" mat-button (click)="startGame()" [disabled]="names.length === 0">
       <!-- <mat-icon>arrow-right</mat-icon> -->
       Next
       <mat-icon class="icon">arrow_forward</mat-icon>
     </button>
-    <button
-      *ngIf="names.length > 1"
-      class="btn"
-      mat-button
-      (click)="randomizePlayersList()"
-    >
+    <button *ngIf="names.length > 1" class="btn" mat-button (click)="randomizePlayersList()">
       <!-- <mat-icon>arrow-right</mat-icon> -->
       Randomizer
       <mat-icon class="icon">shuffle</mat-icon>
-    </button>
-    <button
-      *ngIf="gameInMemory"
-      class="btn"
-      mat-button
-      (click)="returnToGame()"
-    >
-      <!-- <mat-icon>arrow-right</mat-icon> -->
-      Reload game
-      <mat-icon class="icon">cached</mat-icon>
     </button>
   </div>
 </div>

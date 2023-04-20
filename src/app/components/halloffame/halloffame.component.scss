@@ -1,0 +1,44 @@
+@import '/src/colors';
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.divider {
+    width: 100%;
+    margin: 10px;
+    color: $blue;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.icon {
+    color: $gold;
+}
+
+@media only screen and (min-width: 600px) {
+
+    /* For tablets: */
+    .main-container {
+        width: 80vw;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+
+    /* For desktop: */
+    .main-container {
+        width: 80vw;
+    }
+}
