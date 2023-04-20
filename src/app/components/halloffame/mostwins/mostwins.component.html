@@ -1,1 +1,37 @@
-<p>mostwins works!</p>
+<div class="game-container">
+    <h2 class="title">Most wins</h2>
+    <mat-table *ngIf="data.length > 0;else noGamesPlayed" [dataSource]="data" class="table">
+        <!-- Position Column -->
+        <ng-container matColumnDef="position" style="width: 20px">
+            <mat-header-cell *matHeaderCellDef [ngClass]="'small'">
+                Pos.
+            </mat-header-cell>
+            <mat-cell *matCellDef="let data" [ngClass]="getNgClass(data.position)">
+                {{ data.position }}
+            </mat-cell>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+            <mat-cell *matCellDef="let data"> {{ data.name }} </mat-cell>
+        </ng-container>
+
+        <!-- total Column -->
+        <ng-container matColumnDef="total">
+            <mat-header-cell *matHeaderCellDef> # Wins </mat-header-cell>
+            <mat-cell *matCellDef="let data"> {{ data.total }}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+</div>
+
+
+
+<ng-template #noGamesPlayed>
+    <div class="caption">
+        No games played yet... 😴
+    </div>
+</ng-template>

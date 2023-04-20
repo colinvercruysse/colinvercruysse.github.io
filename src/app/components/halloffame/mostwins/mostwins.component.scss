@@ -1,0 +1,62 @@
+@import '/src/colors';
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    width: 90vw;
+    align-items: center;
+    justify-content: center;
+}
+
+.title,
+.caption {
+    width: 100%;
+    text-align: start;
+}
+
+.row {
+    border-bottom: 2px solid $blue;
+}
+
+.small {
+    max-width: 60px;
+}
+
+.first {
+    background-color: $gold;
+}
+
+.third {
+    background-color: $bronze;
+}
+
+.second {
+    background-color: $silver;
+}
+
+.icon {
+    color: $darkBlue
+}
+
+.toBeFilled {
+    background-color: $orangeFaded;
+    border-radius: 5px;
+    border-color: $black;
+}
+
+
+@media only screen and (min-width: 600px) {
+
+    /* For tablets: */
+    mat-table {
+        width: 80vw;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+
+    /* For desktop: */
+    mat-table {
+        width: 80vw;
+    }
+}

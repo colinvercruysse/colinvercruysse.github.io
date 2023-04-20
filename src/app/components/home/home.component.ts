@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
 
   addName(event: any) {
     if (event.target && event.target.value) {
-      this.names.push(event.target.value);
+      this.names.push(this.capitalizeFirstLetter(event.target.value.trim()));
       event.target.value = "";
     }
   }
@@ -86,5 +86,9 @@ export class HomeComponent implements OnInit {
 
   randomizePlayersList() {
     this.names.sort((a, b) => 0.5 - Math.random());
+  }
+
+  capitalizeFirstLetter(s: string): string {
+    return s.charAt(0).toUpperCase() + s.slice(1);
   }
 }

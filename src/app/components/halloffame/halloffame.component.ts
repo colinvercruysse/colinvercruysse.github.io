@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { IGame } from 'src/app/data/interfaces';
+import { GameState, IGame } from 'src/app/data/interfaces';
 import { GameFactory } from 'src/app/games/GameFactory';
 import { GameStateService } from 'src/app/services/game.service';
 
@@ -26,14 +26,6 @@ export class HalloffameComponent implements OnInit {
 
   navigateToHomescreen() {
     this.router.navigate(["/home"]);
-  }
-
-  getPlayedGames(game: IGame): IGame[] {
-    this.db.getAll().valueChanges().subscribe(items => {
-      return items.filter(state => state.game.name === game.name);
-    });
-
-    return [];
   }
 
   onSelectedValueChange(selectedValue: IGame) {
