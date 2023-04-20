@@ -27,6 +27,7 @@ import { AngularFireModule } from "@angular/fire/compat";
 import { AngularFireDatabaseModule } from "@angular/fire/compat/database";
 import { HalloffameComponent } from './components/halloffame/halloffame.component';
 import { MostwinsComponent } from './components/halloffame/mostwins/mostwins.component';
+import { LastgameComponent } from './components/halloffame/lastgame/lastgame.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { MostwinsComponent } from './components/halloffame/mostwins/mostwins.com
     EndComponent,
     HalloffameComponent,
     MostwinsComponent,
+    LastgameComponent,
   ],
   imports: [
     BrowserModule,
