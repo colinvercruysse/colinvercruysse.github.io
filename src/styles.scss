@@ -1,35 +1,39 @@
 /* You can add global styles to this file, and also import other style files */
 @import '/src/colors';
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
 
 
 body {
-    background-color: $brokenWhite;
-    font-family: Poppins, sans-serif !important;
-    font-size: 16px;
+  background-color: $brokenWhite;
+  font-family: Poppins, sans-serif !important;
+  font-size: 16px;
 }
 
 input[type='number'],
 input[type="text"] {
-    font-size: inherit;
-  }
+  font-size: inherit;
+}
 
-  @media only screen and (min-width: 600px) {
-    /* For tablets: */
-    body {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-  }
+@media only screen and (min-width: 600px) {
 
-  @media only screen and (min-width: 768px) {
-    /* For desktop: */
-    body {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
+  /* For tablets: */
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
+}
+
+@media only screen and (min-width: 768px) {
+
+  /* For desktop: */
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}

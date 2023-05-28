@@ -33,10 +33,13 @@ export class LastgameComponent implements OnInit, OnDestroy {
       if (items.length === 0) return;
 
       let states = items.filter(state => state.game.name === game.name);
+
+      // Sort by date in descending order
       states.sort(function (a, b) {
-        return new Date(a.date).getTime() - new Date(b.date).getTime();
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
       })
 
+      // this.state will hold the last game played
       this.state = states[0];
     });
   }
