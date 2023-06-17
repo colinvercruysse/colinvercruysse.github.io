@@ -1,68 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Page Not Found</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Chango&family=Roboto:wght@300&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
-      body {
-        font-family: Poppins, sans-serif !important;
-        font-size: 16px;
-        background-color: #f8f7f3;
-      }
-      main {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        margin: 20px;
-        text-align: center;
-      }
 
-      h1 {
-        color: #065d9e;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page Not Found</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Chango&family=Roboto:wght@300&display=swap" rel="stylesheet" />
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
+    body {
+      font-family: Poppins, sans-serif !important;
+      font-size: 16px;
+      background-color: #f8f7f3;
+    }
+
+    main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      margin: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #065d9e;
+    }
+
+    img {
+      width: 80%;
+      height: auto;
+      border-radius: 10px;
+    }
+
+    a {
+      border: 1px solid #065d9e;
+      padding: 5px;
+      border-radius: 5px;
+      text-decoration: none;
+      background-color: #f8f7f3;
+      color: #065d9e;
+    }
+
+    a:hover {
+      background-color: #065d9e;
+      color: #f8f7f3;
+    }
+
+    @media only screen and (min-width: 600px) {
+
+      /* For tablets: */
       img {
-        width: 80%;
-        height: auto;
+        height: 40%;
+        width: auto;
       }
+    }
 
-      @media only screen and (min-width: 600px) {
-        /* For tablets: */
-        img {
-          height: 40%;
-          width: auto;
-        }
-      }
+    @media only screen and (min-width: 768px) {
 
-      @media only screen and (min-width: 768px) {
-        /* For desktop: */
-        img {
-          height: 40%;
-          width: auto;
-        }
+      /* For desktop: */
+      img {
+        height: 40%;
+        width: auto;
       }
-    </style>
-  </head>
-  <body>
-    <main>
-      <h1>Error 404</h1>
-      <div>Uh-oh! We couldn't find the page you are looking for.</div>
-      <p>
-        <a href="/">Return to home page</a>
-      </p>
-      <img
-        src="https://i.imgflip.com/78qnre.jpg"
-        title="Return to Vercruysse gameboard"
-        alt="Return to Vercruysse gameboard"
-      />
-    </main>
-  </body>
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <h1>Error 404</h1>
+    <div>Uh-oh! We couldn't find the page you are looking for.</div>
+    <p>
+      <a href="/">RETURN</a>
+    </p>
+    <img src="https://i.imgflip.com/78qnre.jpg" title="Return to Vercruysse gameboard"
+      alt="Return to Vercruysse gameboard" />
+  </main>
+</body>
+
 </html>
